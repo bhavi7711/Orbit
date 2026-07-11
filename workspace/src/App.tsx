@@ -142,6 +142,13 @@ export default function App() {
     return DICTIONARY[lang][key] || DICTIONARY['en'][key] || key;
   };
 
+  // Deep link from Preethesh's landing pages (/landing/) — "Get Started"
+  // CTAs link to /?view=onboarding so founders skip the duplicate hero.
+  useEffect(() => {
+    const wanted = new URLSearchParams(window.location.search).get('view');
+    if (wanted === 'onboarding' || wanted === 'ideation') setView(wanted);
+  }, []);
+
   // Sync initial state if saved
   useEffect(() => {
     const saved = localStorage.getItem('orbit.state.react');
@@ -229,6 +236,8 @@ export default function App() {
             <div className="hidden md:flex gap-6">
               <button onClick={() => setView('landing')} className={`font-semibold text-sm ${view === 'landing' ? 'text-primary' : 'text-secondary hover:text-primary transition'}`}>Features</button>
               <button onClick={() => setView('onboarding')} className={`font-semibold text-sm ${view === 'onboarding' ? 'text-primary' : 'text-secondary hover:text-primary transition'}`}>Onboarding</button>
+              <a href="/landing/" className="font-semibold text-sm text-secondary hover:text-primary transition">Full site</a>
+              <a href="/landing/workflow.html" className="font-semibold text-sm text-secondary hover:text-primary transition">Workflow</a>
             </div>
           </div>
           <div className="flex items-center gap-4">

@@ -67,3 +67,12 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 **Prompt/ask:** Remove the chat UI from the Code department; show "Build our MVP now" / "Fix your MVP software" buttons that log the request and refresh/redirect.
 **Changes made:** `packages/client/src/App.tsx` — the Code view no longer renders the chatbot column; instead a centered panel with the two MVP buttons. Clicking logs the request to the vault (`mvp_build_request`/`mvp_fix_request`) and reloads the page; an `ANTIGRAVITY_URL` constant is ready for Ashish to point at his app, at which point the buttons redirect there instead. Side-panel copy updated. Verified with Playwright: chat input gone, both buttons render, click logs + refreshes back to Mission Control, no JS errors.
 **Why:** The Code section is a handoff point to Ashish's Antigravity build system, not a chat surface.
+
+## [2026-07-11] — Landing ↔ Bhavi's onboarding integrated into one funnel; StartupForge button
+**Prompt/ask:** Integrate Preethesh's landing pages with Bhavi's React onboarding (workspace/, :3001); rename the Code section's "Build our MVP now" button to "StartupForge".
+**Changes made:**
+- `landing/index.html` — all 6 "Get Started" CTAs now point to `/?view=onboarding` (Bhavi's React onboarding, since the landing is served by her vite server at :3001/landing/).
+- `workspace/src/App.tsx` — reads `?view=` on mount so the landing CTAs deep-link straight into the onboarding step (skipping her duplicate mini-hero); nav gained "Full site" (→ /landing/) and "Workflow" (→ /landing/workflow.html) links back into the static site.
+- `packages/client/src/App.tsx` — Code section primary button renamed "Build our MVP now" → "StartupForge" (side-panel copy updated).
+**Verified with Playwright:** :3001/landing/ serves the full landing; Get Started lands on "How are you building this?"; solo onboarding → ideation → launch triggers the backend and redirects to the :3000 dashboard; StartupForge button renders, old label gone, no JS errors.
+**Why:** One continuous product funnel — landing (:3001/landing/) → onboarding (:3001) → agent dashboard (:3000) — instead of three disconnected UIs.

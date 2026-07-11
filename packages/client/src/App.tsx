@@ -1276,7 +1276,7 @@ export default function App() {
                     className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] rounded-xl transition shadow-xl shadow-[#a53600]/25 active:scale-95"
                   >
                     <Play className="w-4 h-4" />
-                    <span>Build our MVP now</span>
+                    <span>StartupForge</span>
                   </button>
                   <button
                     onClick={() => handleMvpAction('fix')}
@@ -1786,7 +1786,7 @@ export default function App() {
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Code Support — Antigravity</h3>
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
-                      "Build our MVP now" and "Fix your MVP software" hand your request — with the full shared agent context — to the Antigravity build system. Direct code-editing automation plugs in here when <b>Ashish's Antigravity track</b> ships.
+                      "StartupForge" and "Fix your MVP software" hand your request — with the full shared agent context — to the Antigravity build system. Direct code-editing automation plugs in here when <b>Ashish's Antigravity track</b> ships.
                     </p>
                     <div className="p-3 rounded-xl border border-dashed border-[#a53600]/40 bg-[#fff1ec] text-[10px] font-mono text-stone-500 text-center">
                       ANTIGRAVITY INTEGRATION SLOT — pending Gemma vault edit/version API
