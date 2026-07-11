@@ -45,3 +45,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 **Prompt/ask:** The workspace logo differed from the landing page's; make them identical.
 **Changes made:** `workspace/src/components/Sidebar.tsx` — logo block now uses the exact landing markup: orange circle + Material Symbols `orbit` glyph + extrabold "Orbit" wordmark (was a plain "O" initial + Orbit/Workspace two-liner). `workspace/index.html` — loads the Material Symbols Outlined font (same stylesheet the landing uses) and Inter 800 for the wordmark weight.
 **Why:** One brand mark across landing and workspace.
+
+## [2026-07-11] — Dashboard merged into main
+**Prompt/ask:** Pull any new main changes, then merge Deepthi's dashboard work into main (authorized).
+**Changes made:** Pulled main — picked up Bhavi's `packages/` monorepo (client/server/core, Gemini chat) and Preethesh's rewritten stateful `workflow.html`. Merged `deepthi/workspace-dashboard` → main (merge `6a7c380`): one conflict in `landing/workflow.html` (Preethesh had replaced the block holding the old dashboard CTA) — kept his new version and re-added an "Open your workspace dashboard" link at the end of his workspace roadmap section. Pushed to origin.
+**Why:** Dashboard v1, WSL watcher fix, landing integration, palette + logo match are now shared with the team. Note: repo now has three frontends (`landing/`, `workspace/`, `packages/client/`) — Bhavi flagged the same; consolidation needed.
