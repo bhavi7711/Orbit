@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en">
+<head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Orbit | Workflow — From Idea to Running Company</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="assets/theme.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Inter', sans-serif; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="bg-surface text-on-surface">
+
+<!-- Navbar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-md">
+  <div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-4 flex justify-between items-center gap-4">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+        <span class="material-symbols-outlined text-white text-lg">orbit</span>
+      </span>
+      <span class="font-extrabold text-xl tracking-tight">Orbit</span>
+    </a>
+    <div class="flex items-center gap-4">
+      <div id="lang-selector" class="hidden sm:flex"></div>
+      <a href="onboarding.html" class="bg-primary text-on-primary px-6 py-2.5 rounded-full text-label-sm font-bold shadow-lg shadow-primary/20" data-i18n="nav.getStarted">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-36 pb-24 px-margin-mobile md:px-margin-desktop max-w-4xl mx-auto">
+
+  <header class="text-center space-y-4 mb-20">
+    <h1 class="text-headline-lg-mobile md:text-headline-xl font-bold" data-i18n="workflow.title">From idea to a running company</h1>
+    <p class="text-body-lg text-on-surface-variant max-w-2xl mx-auto" data-i18n="workflow.subtitle">
+      The Manager Agent owns this roadmap end to end. Every step is visible, auditable, and rendered in your language.
+    </p>
+  </header>
+
+  <!-- Vertical roadmap: Step 0 → 9 (ORBIT.md Section 9). Steps render from the
+       STEPS array below so live status can later come from the Manager Agent API. -->
+  <ol id="roadmap" class="relative border-l-2 border-outline-variant/40 ml-5 space-y-12"></ol>
+
+  <div class="text-center pt-20">
+    <p class="text-body-md text-on-surface-variant mb-6">
+      This loop never really ends — Orbit stays on as the standing team, in whatever language and team size you actually have.
+    </p>
+    <a href="onboarding.html" class="inline-block bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-body-md shadow-xl shadow-primary/20" data-i18n="nav.getStarted">Get Started</a>
+  </div>
+
+</main>
+
+<script src="assets/i18n.js"></script>
+<script>
+  /* Step data mirrors ORBIT.md Section 9. `status` is hardcoded demo state for now;
+     it will be fed by the Manager Agent roadmap API (Bhavi's orchestrator track). */
+  const STEPS = [
+    { n: "0",   icon: "door_open",       title: "Onboarding",             agent: "Founder",                 status: "done",
+      body: "Choose Solo or Team. Team members each get a role, a permission scope, and their own Gemma vault on their own device." },
+    { n: "0.5", icon: "upload_file",     title: "Document ingestion",     agent: "Gemma (on-device)",       status: "done",
+      body: "ITRs, GST returns, bank statements, invoices, incorporation certs go straight into the local vault. Gemma OCRs and parses them on-device — raw documents never leave the device." },
+    { n: "1",   icon: "lightbulb",       title: "Intent",                 agent: "Founder → Manager Agent", status: "done",
+      body: "Type the one-line idea, in any language. Gemma detects the language, holds the raw input locally, and passes a scoped, translated version to the Manager Agent." },
+    { n: "2",   icon: "search_insights", title: "Validation",             agent: "Research Agent",          status: "active",
+      body: "Competitors, market size, pricing gap — grounded in your real financials if documents were ingested, rendered back in your own language." },
+    { n: "3",   icon: "call_split",      title: "Parallel build-out",     agent: "Legal + Brand & Marketing", status: "pending",
+      body: "Legal determines registration and compliance requirements while Brand & Marketing drafts positioning and multilingual landing copy, both grounded in Research's output." },
+    { n: "4",   icon: "balance",         title: "Conflict resolution",    agent: "Conflict Resolution Agent", status: "pending",
+      body: "Where Marketing's claims outrun what Legal has cleared, arbitration happens in real time — visibly, with the tradeoff reported to the Manager Agent." },
+    { n: "5",   icon: "rocket_launch",   title: "First build",            agent: "Build Agent + Antigravity", status: "pending",
+      body: "The real, live, multilingual website/MVP is generated from the reconciled positioning and legal constraints." },
+    { n: "6",   icon: "trending_up",     title: "Go-to-market",           agent: "Sales/GTM Agent",         status: "pending",
+      body: "Outbound and pricing checked against real margin data, with customer conversations in the customer's language — inside what Legal has cleared." },
+    { n: "7",   icon: "support_agent",   title: "Live support",           agent: "Support Agent",           status: "pending",
+      body: "First-layer customer questions answered in whatever language the customer writes, grounded in the same product/legal/pricing truth." },
+    { n: "8",   icon: "all_inclusive",   title: "Continuous improvement", agent: "Antigravity (ongoing)",   status: "pending",
+      body: "Founder-requested or agent-proposed edits — every change conflict-checked, versioned, and instantly reversible via Gemma's local vault." },
+    { n: "9",   icon: "group_add",       title: "Team growth",            agent: "Workspace",               status: "pending",
+      body: "New members sync into the existing shared context immediately, scoped by role. Private data from other profiles never leaks to them." },
+  ];
+
+  const BADGE = {
+    done:    { cls: "bg-green-100 text-green-700",   label: "Done",        dot: "bg-green-500" },
+    active:  { cls: "bg-primary/10 text-primary",    label: "In progress", dot: "bg-primary animate-pulse" },
+    pending: { cls: "bg-surface-container text-on-surface-variant", label: "Queued", dot: "bg-outline-variant" },
+  };
+
+  document.getElementById("roadmap").innerHTML = STEPS.map((s) => {
+    const b = BADGE[s.status];
+    return `
+    <li class="relative pl-10">
+      <span class="absolute -left-[13px] top-1 w-6 h-6 rounded-full ${b.dot} ring-4 ring-surface"></span>
+      <div class="bg-white rounded-xl border border-outline-variant/30 shadow-sm p-6 space-y-3 ${s.status === "active" ? "ring-2 ring-primary" : ""}">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="material-symbols-outlined text-primary">${s.icon}</span>
+          <h2 class="text-body-lg font-bold">Step ${s.n} — ${s.title}</h2>
+          <span class="ml-auto px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${b.cls}">${b.label}</span>
+        </div>
+        <p class="text-label-sm text-on-surface-variant font-medium">${s.agent}</p>
+        <p class="text-body-md text-on-surface-variant">${s.body}</p>
+      </div>
+    </li>`;
+  }).join("");
+</script>
+</body>
+</html>
