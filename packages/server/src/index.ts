@@ -245,7 +245,11 @@ app.post('/api/execution/trigger', async (req, res) => {
   if (companyName) {
     ctx.companyName = companyName;
   }
-  ctx.business.stage = 'Research';
+  ctx.founderProfile.preferences = ctx.founderProfile.preferences || {};
+  if (req.body.track) {
+    ctx.founderProfile.preferences.track = req.body.track;
+  }
+  ctx.business.stage = (req.body.track === 'startup') ? 'Document Ingestion' : 'Research';
   ctx.business.validationScore = 0;
   ctx.product.features = [];
   ctx.product.userStories = [];

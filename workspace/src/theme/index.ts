@@ -12,7 +12,7 @@
  *   <MotionConfig reducedMotion="user"> … </MotionConfig>
  * so framer-motion honors prefers-reduced-motion globally.
  */
-export * from './motion'
+export * from './motion.js'
 
 export const colors = {
   background: '#FFF8F6',

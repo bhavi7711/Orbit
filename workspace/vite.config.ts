@@ -39,6 +39,7 @@ function serveLanding(): Plugin {
 export default defineConfig({
   plugins: [react(), serveLanding()],
   server: {
+    port: 3001,
     // /mnt/* (WSL on a Windows drive) gets no inotify events — poll instead,
     // otherwise edits never hot-reload.
     watch: { usePolling: true, interval: 300 },
