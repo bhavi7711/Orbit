@@ -46,42 +46,13 @@
         <input id="f-name" required type="text" placeholder="Preethesh" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
       </label>
       <label class="block">
-        <span class="text-label-sm font-bold text-on-surface-variant">Email</span>
+        <span class="text-label-sm font-bold text-on-surface-variant">Gmail</span>
         <input id="f-email" required type="email" placeholder="you@gmail.com" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
       </label>
-      <div class="grid grid-cols-2 gap-4">
-        <label class="block">
-          <span class="text-label-sm font-bold text-on-surface-variant">Brand name</span>
-          <input id="f-brand" required type="text" placeholder="CAZ" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
-        </label>
-        <label class="block">
-          <span class="text-label-sm font-bold text-on-surface-variant">Category</span>
-          <select id="f-category" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
-            <option>Clothing / Fashion</option>
-            <option>Food & Beverage</option>
-            <option>D2C / E-commerce</option>
-            <option>Services</option>
-            <option>Tech / SaaS</option>
-          </select>
-        </label>
-      </div>
-      <label class="block">
-        <span class="text-label-sm font-bold text-on-surface-variant">Your idea in one line (any language)</span>
-        <input id="f-idea" required type="text" placeholder="Oversized streetwear tees for college students in India" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
-      </label>
-      <div class="grid grid-cols-2 gap-4">
-        <label class="block">
-          <span class="text-label-sm font-bold text-on-surface-variant">Mode</span>
-          <select id="f-mode" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
-            <option value="solo">Solo founder</option>
-            <option value="team">With a team</option>
-          </select>
-        </label>
-        <label class="block">
-          <span class="text-label-sm font-bold text-on-surface-variant">Unit cost (₹, optional)</span>
-          <input id="f-cost" type="number" min="1" placeholder="210" class="mt-2 w-full rounded-lg border-outline-variant focus:border-primary focus:ring-primary">
-        </label>
-      </div>
+      <p class="text-label-sm text-on-surface-variant flex items-start gap-2">
+        <span class="material-symbols-outlined text-primary text-lg">info</span>
+        That's all we need. Your brand, idea, and financials sync in from your Gemma vault once document ingestion runs (coming from Ashish's track).
+      </p>
       <button type="submit" class="w-full bg-primary text-on-primary px-8 py-4 rounded-full font-bold text-body-md shadow-xl shadow-primary/20 hover:brightness-110 transition-all">
         Create my workspace
       </button>
@@ -167,12 +138,11 @@ let state = OrbitStore.load();
 function createWorkspace(e) {
   e.preventDefault();
   const g = (id) => document.getElementById(id).value.trim();
+  /* Only identity is collected here. Brand, idea, category, mode, and
+     financials arrive later from the Gemma vault API (Ashish's ingestion
+     track) — until then, enrich() fills vault-pending placeholders. */
   state = {
-    founder: {
-      name: g("f-name"), email: g("f-email"), brand: g("f-brand"),
-      category: g("f-category"), idea: g("f-idea"), mode: g("f-mode"),
-      cost: parseInt(g("f-cost"), 10) || null,
-    },
+    founder: { name: g("f-name"), email: g("f-email") },
     progress: 1, // creating the workspace IS Step 0
   };
   OrbitStore.save(state);
@@ -187,14 +157,24 @@ function runStep(i) {
   render();
 }
 
+/* Fills vault-sourced fields with placeholders until the Gemma vault API
+   (Ashish's ingestion track) supplies the real values. */
 function enrich(f) {
-  const price = f.cost ? Math.round((f.cost * 2.6) / 10) * 10 - 1 : 549;
+  const brand = f.brand || "your brand";
+  const cost = f.cost || null;
+  const price = cost ? Math.round((cost * 2.6) / 10) * 10 - 1 : 549;
   return {
     ...f,
+    brand,
+    idea: f.idea || "(idea pending — will sync from your Gemma vault)",
+    category: f.category || "(category pending — from Gemma vault)",
+    mode: f.mode || "solo",
+    cost,
     price,
-    margin: f.cost ? Math.round((1 - f.cost / price) * 100) : null,
-    site: f.brand.toLowerCase().replace(/[^a-z0-9]/g, "") + "-store.orbit.site",
-    clothing: f.category.startsWith("Clothing"),
+    margin: cost ? Math.round((1 - cost / price) * 100) : null,
+    site: (f.brand ? f.brand.toLowerCase().replace(/[^a-z0-9]/g, "") : "yourbrand") + "-store.orbit.site",
+    clothing: (f.category || "").startsWith("Clothing"),
+    vaultPending: !f.brand,
   };
 }
 
@@ -206,10 +186,11 @@ function render() {
   if (!hasWs) return;
 
   const f = enrich(state.founder);
-  document.getElementById("ws-avatar").textContent = f.brand[0].toUpperCase();
-  document.getElementById("ws-title").textContent = f.brand;
+  document.getElementById("ws-avatar").textContent = (f.vaultPending ? f.name : f.brand)[0].toUpperCase();
+  document.getElementById("ws-title").textContent = f.vaultPending ? `${f.name}'s workspace` : f.brand;
   document.getElementById("ws-founder").textContent =
-    `${f.name} · ${f.mode === "solo" ? "solo founder" : "team workspace"} · ${OrbitStore.maskEmail(f.email)}`;
+    `${f.name} · ${f.mode === "solo" ? "solo founder" : "team workspace"} · ${OrbitStore.maskEmail(f.email)}` +
+    (f.vaultPending ? " · business context pending from Gemma vault" : "");
   document.getElementById("ws-count").textContent = `${state.progress}/${STEPS.length}`;
 
   document.getElementById("roadmap").innerHTML = STEPS.map((s, i) => {
