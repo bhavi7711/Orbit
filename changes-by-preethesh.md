@@ -57,3 +57,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 **Prompt/ask:** Get Ashish (multi-agentic code system + Gemma, customer-feedback-driven builds) everything needed to merge his work into the Code section.
 **Changes made:** `ONBOARDING-ASHISH.md` (repo links, 5-min setup, exact integration points — Code panel in App.tsx, `AGENT_SYSTEM_PROMPTS.code`, `registerCreative()` pattern for his endpoints, shared-memory logging, uploads location — plus workflow rules) and `packages/server/.env.example` (key template; real key shared privately, never committed).
 **Why:** Key stays out of git per Preethesh's decision; the doc encodes the artifact-shadowing lesson so it doesn't happen again.
+
+## [2026-07-11] — Dashboard retheme to match Bhavi's onboarding styling
+**Prompt/ask:** Bhavi's latest commit rebuilt `workspace/` (port 3001) as a React onboarding flow using the landing-page orange theme, redirecting into the :3000 dashboard. Align the dashboard's styling with it — UI only, no agent-logic changes.
+**Changes made:** `packages/client/src/App.tsx` + `index.css` — pure color-token swap from the old beige/gold theme to the landing theme Bhavi used: accent `#8c6d3b`→`#a53600` (hover `#812800`), gradients `#bca374`/`#c29f68`→`#cc490e`, surfaces `#f6f4ee`/`#fbfaf7`→`#fff8f6` and `#faf9f6`→`#fff1ec`, shadow tints from gold rgba to orange rgba, dark stone button gradients → primary orange gradients. Zero logic changes; typecheck clean; verified in browser — dashboard, sidebar, vault, and conflict center all render in the unified orange/cream palette.
+**Why:** Landing (Preethesh), onboarding (Bhavi, :3001), and dashboard (:3000) now read as one product instead of two clashing themes.

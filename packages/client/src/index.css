@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    background-color: #f6f4ee;
+    background-color: #fff8f6;
     color: #2e2c29;
     font-family: 'Outfit', 'Inter', sans-serif;
     overflow-x: hidden;
@@ -16,19 +16,19 @@
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(139, 115, 85, 0.15);
-  box-shadow: 0 4px 30px rgba(139, 115, 85, 0.04);
+  border: 1px solid rgba(165, 54, 0, 0.15);
+  box-shadow: 0 4px 30px rgba(165, 54, 0, 0.04);
 }
 
 .glass-panel-hover:hover {
-  border-color: rgba(139, 115, 85, 0.3);
-  box-shadow: 0 8px 30px rgba(139, 115, 85, 0.08);
+  border-color: rgba(165, 54, 0, 0.3);
+  box-shadow: 0 8px 30px rgba(165, 54, 0, 0.08);
   transform: translateY(-2px);
 }
 
 /* Accent text colors */
 .text-accent-gold {
-  color: #8c6d3b;
+  color: #a53600;
 }
 
 /* Background soft warm lights instead of blue orbs */
@@ -60,14 +60,14 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(139, 115, 85, 0.02);
+  background: rgba(165, 54, 0, 0.02);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(139, 115, 85, 0.15);
+  background: rgba(165, 54, 0, 0.15);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(139, 115, 85, 0.35);
+  background: rgba(165, 54, 0, 0.35);
 }

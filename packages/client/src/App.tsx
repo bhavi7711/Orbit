@@ -702,26 +702,26 @@ export default function App() {
   // Final roster: every agent here is real (Gemini-powered) except Code,
   // which is the integration point for Ashish's Antigravity track.
   const departmentsList = [
-    { name: 'Research', icon: BookOpen, color: 'from-[#8c6d3b] to-[#bca374]', description: 'REAL market research via live Google Search: sizes, competitors, prices.' },
-    { name: 'Finance', icon: DollarSign, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Financial support: runway, unit economics, pricing, funding options.' },
-    { name: 'Marketing', icon: Zap, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Growth strategy + Nano Banana poster studio + Veo ad videos.' },
-    { name: 'Creative', icon: Mic, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Captions in any language + real TTS voiceovers for your ads.' },
-    { name: 'Deck', icon: FileText, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Investor pitch deck built from live agent context, exported as PPTX.' },
-    { name: 'Code', icon: Code, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Code support — Antigravity integration (Ashish\'s track, coming soon).' },
-    { name: 'Conflict', icon: Settings2, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Mediates department contradictions, outputs compromise logs.' }
+    { name: 'Research', icon: BookOpen, color: 'from-[#a53600] to-[#cc490e]', description: 'REAL market research via live Google Search: sizes, competitors, prices.' },
+    { name: 'Finance', icon: DollarSign, color: 'from-[#a53600] to-[#cc490e]', description: 'Financial support: runway, unit economics, pricing, funding options.' },
+    { name: 'Marketing', icon: Zap, color: 'from-[#a53600] to-[#cc490e]', description: 'Growth strategy + Nano Banana poster studio + Veo ad videos.' },
+    { name: 'Creative', icon: Mic, color: 'from-[#a53600] to-[#cc490e]', description: 'Captions in any language + real TTS voiceovers for your ads.' },
+    { name: 'Deck', icon: FileText, color: 'from-[#a53600] to-[#cc490e]', description: 'Investor pitch deck built from live agent context, exported as PPTX.' },
+    { name: 'Code', icon: Code, color: 'from-[#a53600] to-[#cc490e]', description: 'Code support — Antigravity integration (Ashish\'s track, coming soon).' },
+    { name: 'Conflict', icon: Settings2, color: 'from-[#a53600] to-[#cc490e]', description: 'Mediates department contradictions, outputs compromise logs.' }
   ];
 
   /* ----------------- RENDER ONBOARDING SCREEN ----------------- */
   if (!hasIdeaLaunched) {
     return (
-      <div className="relative min-h-screen flex items-center justify-center bg-[#f6f4ee] overflow-hidden text-stone-850 px-4">
+      <div className="relative min-h-screen flex items-center justify-center bg-[#fff8f6] overflow-hidden text-stone-850 px-4">
         {/* Soft warm gold background lights */}
         <div className="glow-orb w-[700px] h-[700px] bg-amber-100/30 top-[-300px] left-[-300px]" />
         <div className="glow-orb w-[600px] h-[600px] bg-orange-100/20 bottom-[-300px] right-[-300px]" />
 
         <div className="w-full max-w-xl z-10 text-center">
           <div className="flex justify-center mb-6">
-            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-stone-800 to-stone-700 text-[#f6f4ee] shadow-[0_4px_20px_rgba(140,109,59,0.15)]">
+            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#a53600] to-[#cc490e] text-[#fff8f6] shadow-[0_4px_20px_rgba(165,54,0,0.15)]">
               <FolderDot className="w-8 h-8" />
             </div>
           </div>
@@ -742,7 +742,7 @@ export default function App() {
                   value={inputCompanyName}
                   onChange={(e) => setInputCompanyName(e.target.value)}
                   placeholder="e.g. AgriGrow"
-                  className="w-full px-4 py-2 text-sm text-stone-850 rounded-xl bg-[#faf9f6] border border-stone-200 focus:outline-none focus:border-[#8c6d3b] placeholder:text-stone-400 font-sans mb-1"
+                  className="w-full px-4 py-2 text-sm text-stone-850 rounded-xl bg-[#fff1ec] border border-stone-200 focus:outline-none focus:border-[#a53600] placeholder:text-stone-400 font-sans mb-1"
                   required
                 />
               </div>
@@ -753,14 +753,14 @@ export default function App() {
                   value={objective}
                   onChange={(e) => setObjective(e.target.value)}
                   placeholder="Describe your product idea... (e.g. 'Build an automated CRM system for organic farms')"
-                  className="w-full h-24 p-4 text-sm text-stone-850 rounded-xl bg-[#faf9f6] border border-stone-200 focus:outline-none focus:border-[#8c6d3b] placeholder:text-stone-400 resize-none font-sans leading-relaxed focus:shadow-[0_0_20px_rgba(140,109,59,0.06)]"
+                  className="w-full h-24 p-4 text-sm text-stone-850 rounded-xl bg-[#fff1ec] border border-stone-200 focus:outline-none focus:border-[#a53600] placeholder:text-stone-400 resize-none font-sans leading-relaxed focus:shadow-[0_0_20px_rgba(165,54,0,0.06)]"
                   required
                 />
               </div>
 
               <button 
                 type="submit" 
-                className="w-full flex items-center justify-center gap-2.5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-stone-800 to-stone-750 hover:from-stone-900 hover:to-stone-800 rounded-xl transition duration-200 shadow-[0_4px_25px_rgba(140,109,59,0.12)]"
+                className="w-full flex items-center justify-center gap-2.5 py-3 text-sm font-semibold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] rounded-xl transition duration-200 shadow-[0_4px_25px_rgba(165,54,0,0.12)]"
               >
                 <span>Let's Ideate</span>
                 <ArrowRight className="w-4 h-4" />
@@ -778,18 +778,18 @@ export default function App() {
 
   /* ----------------- RENDER MAIN APP LAYOUT ----------------- */
   return (
-    <div className="flex min-h-screen bg-[#f6f4ee] text-stone-800 font-sans">
+    <div className="flex min-h-screen bg-[#fff8f6] text-stone-800 font-sans">
       
       {/* Soft Gold Orbs */}
       <div className="glow-orb w-[600px] h-[600px] bg-amber-100/30 top-[-200px] left-[-200px]" />
       <div className="glow-orb w-[500px] h-[500px] bg-orange-100/20 bottom-[-200px] right-[-200px]" />
 
       {/* LEFT SIDEBAR NAVIGATION */}
-      <aside className="w-64 border-r border-stone-200/80 bg-[#fbfaf7]/60 backdrop-blur-xl shrink-0 flex flex-col z-20">
+      <aside className="w-64 border-r border-stone-200/80 bg-[#fff8f6]/60 backdrop-blur-xl shrink-0 flex flex-col z-20">
         
         {/* Workspace Brand Box */}
         <div className="p-5 border-b border-stone-200/85 flex items-center gap-3">
-          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-stone-800 to-stone-700 text-white shadow-sm">
+          <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-[#a53600] to-[#cc490e] text-white shadow-sm">
             <FolderDot className="w-5 h-5" />
           </div>
           <div>
@@ -804,7 +804,7 @@ export default function App() {
           <select 
             value={workspaceId} 
             onChange={(e) => setWorkspaceId(e.target.value)}
-            className="w-full px-2.5 py-1.5 text-xs text-stone-800 rounded-lg bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+            className="w-full px-2.5 py-1.5 text-xs text-stone-800 rounded-lg bg-white border border-stone-200 focus:outline-none focus:border-[#a53600]"
           >
             <option value="default-workspace">Acme Analytics (Active)</option>
             <option value="workspace-2">Delta Delivery (Stage: GTM)</option>
@@ -819,8 +819,8 @@ export default function App() {
               onClick={() => setActiveView('overview')}
               className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-medium transition ${
                 activeView === 'overview' 
-                  ? 'bg-[#8c6d3b]/10 text-[#8c6d3b] border border-[#8c6d3b]/15 font-semibold shadow-[0_2px_10px_rgba(140,109,59,0.04)]' 
-                  : 'text-stone-600 hover:text-stone-800 hover:bg-[#8c6d3b]/5'
+                  ? 'bg-[#a53600]/10 text-[#a53600] border border-[#a53600]/15 font-semibold shadow-[0_2px_10px_rgba(165,54,0,0.04)]' 
+                  : 'text-stone-600 hover:text-stone-800 hover:bg-[#a53600]/5'
               }`}
             >
               <LayoutDashboard className="w-4 h-4" />
@@ -843,22 +843,22 @@ export default function App() {
                     disabled={!unlocked}
                     className={`w-full flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition ${
                       isSelected 
-                        ? 'bg-[#8c6d3b]/10 text-[#8c6d3b] border border-[#8c6d3b]/15 font-semibold' 
+                        ? 'bg-[#a53600]/10 text-[#a53600] border border-[#a53600]/15 font-semibold' 
                         : unlocked
-                        ? 'text-stone-600 hover:text-stone-800 hover:bg-[#8c6d3b]/5'
+                        ? 'text-stone-600 hover:text-stone-800 hover:bg-[#a53600]/5'
                         : 'text-stone-400 opacity-40 cursor-not-allowed'
                     }`}
                   >
                     <div className="flex items-center gap-2.5">
                       {unlocked ? (
-                        <dept.icon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#8c6d3b]' : 'text-stone-500'}`} />
+                        <dept.icon className={`w-3.5 h-3.5 ${isSelected ? 'text-[#a53600]' : 'text-stone-500'}`} />
                       ) : (
                         <Lock className="w-3.5 h-3.5 text-stone-400" />
                       )}
                       <span>{dept.name}</span>
                     </div>
                     {unlocked && status === 'inprogress' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#8c6d3b] animate-pulse" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#a53600] animate-pulse" />
                     )}
                   </button>
                 );
@@ -868,7 +868,7 @@ export default function App() {
         </nav>
 
         {/* Global Health Status */}
-        <div className="p-4 border-t border-stone-200/80 bg-[#fbfaf7]/60 text-[9px] font-mono text-stone-500 flex flex-col gap-1.5">
+        <div className="p-4 border-t border-stone-200/80 bg-[#fff8f6]/60 text-[9px] font-mono text-stone-500 flex flex-col gap-1.5">
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span>GEMMA SECURE CORE: ACTIVE</span>
@@ -884,12 +884,12 @@ export default function App() {
       <div className="flex-1 flex flex-col min-w-0 z-10">
         
         {/* TOP BAR STATUS */}
-        <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-stone-200/80 bg-[#f6f4ee]/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-40 flex items-center justify-between px-6 py-4 border-b border-stone-200/80 bg-[#fff8f6]/80 backdrop-blur-xl">
           <div className="flex items-center gap-3">
             <h2 className="text-sm font-semibold tracking-tight font-outfit text-stone-800">
               {activeView === 'overview' ? 'Mission Control Hub' : `${activeView} Department Profile`}
             </h2>
-            <span className="text-[10px] text-[#8c6d3b] px-2 py-0.5 bg-[#8c6d3b]/5 rounded border border-[#8c6d3b]/15 font-mono">
+            <span className="text-[10px] text-[#a53600] px-2 py-0.5 bg-[#a53600]/5 rounded border border-[#a53600]/15 font-mono">
               STAGE: {context?.business.stage.toUpperCase() || 'RESEARCH'}
             </span>
           </div>
@@ -915,7 +915,7 @@ export default function App() {
                 {/* Submit Objective Form */}
                 <div className="glass-panel rounded-2xl p-5 shadow-sm bg-white/70">
                   <div className="flex items-center gap-2 mb-4">
-                    <Zap className="w-5 h-5 text-[#8c6d3b]" />
+                    <Zap className="w-5 h-5 text-[#a53600]" />
                     <h3 className="font-semibold text-stone-800 font-outfit">Mission Control</h3>
                   </div>
                   
@@ -926,13 +926,13 @@ export default function App() {
                         value={objective}
                         onChange={(e) => setObjective(e.target.value)}
                         placeholder="Describe your product idea... (e.g. 'Build an automated CRM system for organic farms')"
-                        className="w-full h-28 p-3 text-xs text-stone-800 rounded-xl bg-[#faf9f6] border border-stone-200 focus:outline-none focus:border-[#8c6d3b] placeholder:text-stone-400 resize-none font-sans"
+                        className="w-full h-28 p-3 text-xs text-stone-800 rounded-xl bg-[#fff1ec] border border-stone-200 focus:outline-none focus:border-[#a53600] placeholder:text-stone-400 resize-none font-sans"
                       />
                     </div>
 
                     <button 
                       type="submit" 
-                      className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-stone-800 to-stone-700 hover:from-stone-900 hover:to-stone-800 rounded-xl transition duration-200 shadow-sm"
+                      className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-semibold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] rounded-xl transition duration-200 shadow-sm"
                     >
                       <Play className="w-4 h-4 fill-current" />
                       <span>Launch AI Company</span>
@@ -966,7 +966,7 @@ export default function App() {
                         value={vaultPayload}
                         onChange={(e) => setVaultPayload(e.target.value)}
                         placeholder="Enter secret..."
-                        className="px-2 py-1 text-[11px] text-stone-800 rounded bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                        className="px-2 py-1 text-[11px] text-stone-800 rounded bg-white border border-stone-200 focus:outline-none focus:border-[#a53600]"
                       />
                     </div>
                     <button 
@@ -983,7 +983,7 @@ export default function App() {
                     ) : (
                       vaultEntries.map((e, idx) => (
                         <div key={idx} className="flex items-center justify-between p-2 rounded bg-stone-50 border border-stone-200 text-[10px]">
-                          <span className="font-mono text-[#8c6d3b]">{e.key_type}</span>
+                          <span className="font-mono text-[#a53600]">{e.key_type}</span>
                           <span className="text-stone-500">Securely Vaulted</span>
                         </div>
                       ))
@@ -993,7 +993,7 @@ export default function App() {
                   {/* Context document upload — every agent gets the extracted facts */}
                   <div className="border-t border-stone-200/80 pt-3 mt-3 flex flex-col gap-2">
                     <div className="flex items-center gap-1.5">
-                      <Upload className="w-3.5 h-3.5 text-[#8c6d3b]" />
+                      <Upload className="w-3.5 h-3.5 text-[#a53600]" />
                       <span className="text-[10px] font-bold text-stone-700 font-outfit">Upload business context</span>
                     </div>
                     <p className="text-[9px] text-stone-500 leading-relaxed">Invoices, ITRs, plans (txt/md/csv/pdf). Summarized locally — all agents get the facts, never the raw file.</p>
@@ -1030,16 +1030,16 @@ export default function App() {
                             !unlocked
                               ? 'border-stone-200/40 bg-stone-200/10 opacity-30 cursor-not-allowed'
                               : status === 'inprogress' 
-                              ? 'border-[#8c6d3b]/40 bg-[#8c6d3b]/5 shadow-[0_2px_15px_rgba(140,109,59,0.06)]' 
+                              ? 'border-[#a53600]/40 bg-[#a53600]/5 shadow-[0_2px_15px_rgba(165,54,0,0.06)]' 
                               : status === 'completed' 
                               ? 'border-emerald-250 bg-emerald-50/20'
                               : 'border-stone-200 bg-white hover:border-stone-300'
                           }`}
                         >
-                          <div className={`p-2 rounded-lg bg-gradient-to-br ${dept.color} text-[#f6f4ee] mb-2`}>
+                          <div className={`p-2 rounded-lg bg-gradient-to-br ${dept.color} text-[#fff8f6] mb-2`}>
                             {unlocked ? <dept.icon className="w-4 h-4" /> : <Lock className="w-4 h-4 text-stone-400" />}
                           </div>
-                          <span className="text-xs font-medium text-stone-700 group-hover:text-[#8c6d3b] transition">{dept.name}</span>
+                          <span className="text-xs font-medium text-stone-700 group-hover:text-[#a53600] transition">{dept.name}</span>
                           <span className={`text-[9px] uppercase mt-1 px-1.5 py-0.5 rounded font-mono ${getStatusBadgeClass(status)}`}>
                             {unlocked ? status : 'locked'}
                           </span>
@@ -1067,7 +1067,7 @@ export default function App() {
                         <div key={idx} className="flex items-center justify-between p-3 rounded-xl bg-white border border-stone-200 text-xs">
                           <div className="flex items-center gap-3">
                             <span className={`w-2 h-2 rounded-full ${
-                              task.status === 'inprogress' ? 'bg-[#8c6d3b]' : task.status === 'completed' ? 'bg-emerald-600' : 'bg-stone-400'
+                              task.status === 'inprogress' ? 'bg-[#a53600]' : task.status === 'completed' ? 'bg-emerald-600' : 'bg-stone-400'
                             }`} />
                             <div>
                               <h4 className="font-semibold text-stone-800">{task.title}</h4>
@@ -1093,7 +1093,7 @@ export default function App() {
                 {/* Agent Pub/Sub timeline */}
                 <div className="glass-panel rounded-2xl p-5 shadow-sm h-[320px] flex flex-col bg-white/70">
                   <div className="flex items-center gap-2 mb-3 shrink-0">
-                    <Activity className="w-5 h-5 text-[#8c6d3b]" />
+                    <Activity className="w-5 h-5 text-[#a53600]" />
                     <h3 className="font-semibold text-stone-800 font-outfit">Agent Pub/Sub Logs</h3>
                   </div>
 
@@ -1104,7 +1104,7 @@ export default function App() {
                       logs.map((log, idx) => (
                         <div key={idx} className="p-2.5 rounded-lg bg-stone-50 border border-stone-200 text-[11px] font-sans">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="font-bold text-[#8c6d3b] uppercase tracking-wider text-[10px]">{log.sender}</span>
+                            <span className="font-bold text-[#a53600] uppercase tracking-wider text-[10px]">{log.sender}</span>
                             <span className="text-[9px] text-stone-400 font-mono">{log.action}</span>
                           </div>
                           <p className="text-stone-600 leading-snug">{log.payload.title || JSON.stringify(log.payload)}</p>
@@ -1142,17 +1142,17 @@ export default function App() {
                 <div className="glass-panel rounded-2xl p-5 shadow-sm bg-white/70">
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-2">
-                      <TrendingUp className="w-5 h-5 text-[#8c6d3b]" />
+                      <TrendingUp className="w-5 h-5 text-[#a53600]" />
                       <h3 className="font-semibold text-stone-800 font-outfit">Financial Projections</h3>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200">
+                    <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200">
                       <span className="text-[10px] text-stone-500 block uppercase">Cash Runway</span>
-                      <span className="text-xl font-bold font-outfit text-[#8c6d3b]">{context?.financials.runwayMonths || 12} Months</span>
+                      <span className="text-xl font-bold font-outfit text-[#a53600]">{context?.financials.runwayMonths || 12} Months</span>
                     </div>
-                    <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200">
+                    <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200">
                       <span className="text-[10px] text-stone-500 block uppercase">Monthly Burn</span>
                       <span className="text-xl font-bold font-outfit text-stone-700">${context?.financials.burnRate || 1500}</span>
                     </div>
@@ -1173,7 +1173,7 @@ export default function App() {
                 {/* Conflict Center */}
                 <div className="glass-panel rounded-2xl p-5 shadow-sm bg-white/70 col-span-1 lg:col-span-2">
                   <div className="flex items-center gap-2 mb-3">
-                    <AlertTriangle className="w-5 h-5 text-[#8c6d3b] animate-pulse" />
+                    <AlertTriangle className="w-5 h-5 text-[#a53600] animate-pulse" />
                     <h3 className="font-semibold text-stone-800 font-outfit">Conflict Resolution Center</h3>
                   </div>
 
@@ -1182,11 +1182,11 @@ export default function App() {
                       <p className="text-xs text-stone-400 italic py-4">No disputes detected between agents. Continuous loop running smoothly.</p>
                     ) : (
                       conflicts.map((conflict, idx) => (
-                        <div key={idx} className="p-3.5 rounded-xl border border-[#8c6d3b]/20 bg-[#8c6d3b]/5 text-xs">
+                        <div key={idx} className="p-3.5 rounded-xl border border-[#a53600]/20 bg-[#a53600]/5 text-xs">
                           <div className="flex items-center justify-between mb-2">
-                            <h4 className="font-bold text-[#8c6d3b] font-outfit">{conflict.topic}</h4>
+                            <h4 className="font-bold text-[#a53600] font-outfit">{conflict.topic}</h4>
                             <span className={`px-2 py-0.5 rounded text-[9px] font-mono uppercase ${
-                              conflict.status === 'resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-[#8c6d3b]/10 text-[#8c6d3b]'
+                              conflict.status === 'resolved' ? 'bg-emerald-100 text-emerald-800' : 'bg-[#a53600]/10 text-[#a53600]'
                             }`}>
                               {conflict.status}
                             </span>
@@ -1213,7 +1213,7 @@ export default function App() {
                               </button>
                               <button 
                                 onClick={() => handleConflictResolve(conflict.id, `Approved argument by ${conflict.partyB}`)}
-                                className="px-3 py-1.5 bg-[#8c6d3b] text-white hover:bg-[#70552b] font-semibold rounded text-[11px]"
+                                className="px-3 py-1.5 bg-[#a53600] text-white hover:bg-[#812800] font-semibold rounded text-[11px]"
                               >
                                 Approve GTM Fast Signup
                               </button>
@@ -1239,12 +1239,12 @@ export default function App() {
               <div className="lg:col-span-8 glass-panel rounded-2xl p-5 shadow-2xl flex flex-col h-[600px] bg-white/70 border-stone-200/70">
                 <div className="flex items-center justify-between border-b border-stone-200/80 pb-4 mb-4 shrink-0">
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-gradient-to-tr from-stone-800 to-stone-700 text-white shadow-[0_2px_10px_rgba(140,109,59,0.1)]">
+                    <div className="p-2.5 rounded-xl bg-gradient-to-tr from-[#a53600] to-[#cc490e] text-white shadow-[0_2px_10px_rgba(165,54,0,0.1)]">
                       <MessageSquare className="w-5 h-5" />
                     </div>
                     <div>
                       <h3 className="font-bold text-stone-900 font-outfit text-sm tracking-wide">{activeView} Agent</h3>
-                      <span className="text-[9px] text-[#8c6d3b] font-mono tracking-widest uppercase font-bold">Autonomous Context Memory active</span>
+                      <span className="text-[9px] text-[#a53600] font-mono tracking-widest uppercase font-bold">Autonomous Context Memory active</span>
                     </div>
                   </div>
 
@@ -1252,7 +1252,7 @@ export default function App() {
                   <button 
                     onClick={handleCompleteDepartment}
                     disabled={isCompletingStage}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-lg transition disabled:opacity-50"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-lg transition disabled:opacity-50"
                   >
                     {isCompletingStage ? (
                       <span>Unlocking...</span>
@@ -1277,8 +1277,8 @@ export default function App() {
                       <span className="text-[9px] text-stone-500 mb-1 font-mono">{msg.timestamp}</span>
                       <div className={`p-3.5 rounded-2xl text-xs leading-relaxed font-sans shadow-sm border ${
                         msg.sender === 'user' 
-                          ? 'bg-[#8c6d3b]/10 text-stone-850 border-[#8c6d3b]/20' 
-                          : 'bg-[#faf9f6]/95 text-stone-800 border-stone-200'
+                          ? 'bg-[#a53600]/10 text-stone-850 border-[#a53600]/20' 
+                          : 'bg-[#fff1ec]/95 text-stone-800 border-stone-200'
                       }`}>
                         {/* Markdown simple parser */}
                         {msg.text.split('\n').map((line, lIdx) => {
@@ -1311,11 +1311,11 @@ export default function App() {
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
                     placeholder={`Submit context update or ask ${activeView} agent...`}
-                    className="flex-1 px-4 py-2.5 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b] placeholder:text-stone-400"
+                    className="flex-1 px-4 py-2.5 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600] placeholder:text-stone-400"
                   />
                   <button 
                     type="submit"
-                    className="p-2.5 bg-gradient-to-tr from-stone-800 to-stone-700 hover:from-stone-900 hover:to-stone-800 text-white rounded-xl transition shadow-sm"
+                    className="p-2.5 bg-gradient-to-tr from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] text-white rounded-xl transition shadow-sm"
                   >
                     <Send className="w-4 h-4" />
                   </button>
@@ -1329,18 +1329,18 @@ export default function App() {
                 {activeView === 'Research' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-5 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Sparkles className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Sparkles className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Dynamic Opportunity Matrix</h3>
                     </div>
 
                     <div className="grid grid-cols-1 gap-3">
-                      <div className="p-3.5 rounded-xl bg-[#faf9f6] border border-stone-200">
+                      <div className="p-3.5 rounded-xl bg-[#fff1ec] border border-stone-200">
                         <span className="text-[10px] text-stone-500 block uppercase mb-1 font-mono">Total Addressable Market (TAM)</span>
-                        <span className="text-xl font-bold text-[#8c6d3b] font-outfit tracking-tight">
+                        <span className="text-xl font-bold text-[#a53600] font-outfit tracking-tight">
                           {context?.business.tam || '$4.5 Billion'}
                         </span>
                       </div>
-                      <div className="p-3.5 rounded-xl bg-[#faf9f6] border border-stone-200">
+                      <div className="p-3.5 rounded-xl bg-[#fff1ec] border border-stone-200">
                         <span className="text-[10px] text-stone-500 block uppercase mb-1 font-mono">Serviceable Addressable Market (SAM)</span>
                         <span className="text-xl font-bold text-stone-700 font-outfit tracking-tight">
                           {context?.business.sam || '$820 Million'}
@@ -1348,7 +1348,7 @@ export default function App() {
                       </div>
                     </div>
 
-                    <div className="border border-stone-200 rounded-xl p-3 bg-[#faf9f6] text-xs">
+                    <div className="border border-stone-200 rounded-xl p-3 bg-[#fff1ec] text-xs">
                       <h4 className="font-semibold text-stone-800 mb-2 font-outfit">Dynamic SWOT analysis</h4>
                       <div className="flex flex-col gap-1 text-stone-600 font-mono text-[10px]">
                         <div className="flex items-center gap-2">
@@ -1368,7 +1368,7 @@ export default function App() {
                 {activeView === 'Validation' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-5 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <SlidersHorizontal className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <SlidersHorizontal className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Financial Setup Questionnaire</h3>
                     </div>
 
@@ -1380,7 +1380,7 @@ export default function App() {
                           value={validationBudget}
                           onChange={(e) => setValidationBudget(e.target.value)}
                           placeholder="e.g. ₹3 Lakhs or $10,000"
-                          className="w-full px-3 py-2 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                          className="w-full px-3 py-2 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600]"
                           required
                         />
                       </div>
@@ -1391,7 +1391,7 @@ export default function App() {
                           value={validationIdeaText}
                           onChange={(e) => setValidationIdeaText(e.target.value)}
                           placeholder="e.g. A lightweight offline agronomy journal app"
-                          className="w-full h-16 p-2 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b] resize-none"
+                          className="w-full h-16 p-2 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600] resize-none"
                         />
                       </div>
 
@@ -1411,7 +1411,7 @@ export default function App() {
                       <button 
                         type="submit"
                         disabled={isSavingValidationInputs}
-                        className="w-full py-2.5 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm"
+                        className="w-full py-2.5 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm"
                       >
                         {isSavingValidationInputs ? 'Saving Details...' : 'Save Financial Inputs & Validate'}
                       </button>
@@ -1423,14 +1423,14 @@ export default function App() {
                 {activeView === 'Brand' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-5 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Palette className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Palette className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Sales Pitch Deck</h3>
                     </div>
 
                     {!isDeckGenerated ? (
                       <button 
                         onClick={generatePitchDeck}
-                        className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm"
+                        className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm"
                       >
                         <FileText className="w-4 h-4" />
                         <span>Generate Sales Pitch Deck</span>
@@ -1438,10 +1438,10 @@ export default function App() {
                     ) : (
                       <div className="flex flex-col gap-4">
                         {/* Slide View Canvas */}
-                        <div className="p-4 rounded-xl border border-[#8c6d3b]/20 bg-[#faf9f6] min-h-[140px] flex flex-col justify-between">
+                        <div className="p-4 rounded-xl border border-[#a53600]/20 bg-[#fff1ec] min-h-[140px] flex flex-col justify-between">
                           <div>
                             <div className="flex justify-between items-center mb-1">
-                              <span className="text-[9px] text-[#8c6d3b] uppercase font-mono tracking-widest">{pitchSlides[activeSlideIdx].title}</span>
+                              <span className="text-[9px] text-[#a53600] uppercase font-mono tracking-widest">{pitchSlides[activeSlideIdx].title}</span>
                               <span className="text-[9px] text-stone-500 font-mono">{activeSlideIdx + 1} / 5</span>
                             </div>
                             <h4 className="text-xs font-bold text-stone-900 font-outfit mb-1">{pitchSlides[activeSlideIdx].header}</h4>
@@ -1474,7 +1474,7 @@ export default function App() {
                           <textarea 
                             value={slideEditingText}
                             onChange={(e) => setSlideEditingText(e.target.value)}
-                            className="w-full h-20 p-2.5 text-xs text-stone-850 rounded-lg bg-white border border-stone-250 focus:outline-none focus:border-[#8c6d3b] resize-none font-sans"
+                            className="w-full h-20 p-2.5 text-xs text-stone-850 rounded-lg bg-white border border-stone-250 focus:outline-none focus:border-[#a53600] resize-none font-sans"
                           />
                           <button 
                             onClick={handleSaveSlideText}
@@ -1500,7 +1500,7 @@ export default function App() {
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-5 bg-white/70 border-stone-200/70">
                     <div className="flex items-center justify-between border-b border-stone-200/80 pb-3">
                       <div className="flex items-center gap-2">
-                        <DollarSign className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                        <DollarSign className="w-4.5 h-4.5 text-[#a53600]" />
                         <h3 className="font-bold text-stone-900 font-outfit text-sm">CFO Spreadsheet Room</h3>
                       </div>
                     </div>
@@ -1509,7 +1509,7 @@ export default function App() {
                       <a 
                         href={`/api/finance/excel?workspaceId=${workspaceId}`} 
                         download
-                        className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm text-center"
+                        className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm text-center"
                       >
                         <Download className="w-4 h-4" />
                         <span>Download Financial Sheet (Excel)</span>
@@ -1518,7 +1518,7 @@ export default function App() {
 
                     <div className="border-t border-stone-200/80 pt-4 flex flex-col gap-3">
                       <h4 className="font-bold text-stone-900 font-outfit text-xs flex items-center gap-1.5">
-                        <SlidersHorizontal className="w-4 h-4 text-[#8c6d3b]" />
+                        <SlidersHorizontal className="w-4 h-4 text-[#a53600]" />
                         <span>Refine Budget via AI</span>
                       </h4>
 
@@ -1527,7 +1527,7 @@ export default function App() {
                           value={budgetRefinePrompt}
                           onChange={(e) => setBudgetRefinePrompt(e.target.value)}
                           placeholder="e.g. Cut cloud infra by 50% and allocate to sales outreach..."
-                          className="w-full h-16 p-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-250 focus:outline-none focus:border-[#8c6d3b] resize-none"
+                          className="w-full h-16 p-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-250 focus:outline-none focus:border-[#a53600] resize-none"
                           required
                         />
                         <button 
@@ -1541,11 +1541,11 @@ export default function App() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 text-xs pt-2">
-                      <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200 text-center">
+                      <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200 text-center">
                         <span className="text-[10px] text-stone-500 block uppercase mb-1">Burn Rate</span>
                         <span className="text-base font-bold text-stone-800 font-mono">${context?.financials.burnRate}/mo</span>
                       </div>
-                      <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200 text-center">
+                      <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200 text-center">
                         <span className="text-[10px] text-stone-500 block uppercase mb-1">Infrastructure</span>
                         <span className="text-base font-bold text-stone-850 font-mono">${context?.financials.infrastructureCost}/mo</span>
                       </div>
@@ -1557,7 +1557,7 @@ export default function App() {
                 {activeView === 'Marketing' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Image className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Image className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Poster & Ad Studio (Nano Banana + Veo)</h3>
                     </div>
 
@@ -1565,14 +1565,14 @@ export default function App() {
                       value={posterPrompt}
                       onChange={(e) => setPosterPrompt(e.target.value)}
                       placeholder="Describe the poster/ad... e.g. 'CAZ Drop 001 oversized tees, bold orange typography, college streetwear vibe'"
-                      className="w-full h-16 p-2.5 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b] resize-none"
+                      className="w-full h-16 p-2.5 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600] resize-none"
                     />
 
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={triggerNanoBanana}
                         disabled={isGeneratingBanana || !posterPrompt.trim()}
-                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-stone-800 to-stone-700 hover:from-stone-900 hover:to-stone-800 rounded-xl transition shadow-sm disabled:opacity-50"
+                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] rounded-xl transition shadow-sm disabled:opacity-50"
                       >
                         <Image className="w-3.5 h-3.5" />
                         <span>{isGeneratingBanana ? 'Rendering...' : 'Poster options'}</span>
@@ -1580,7 +1580,7 @@ export default function App() {
                       <button
                         onClick={triggerAdKit}
                         disabled={isGeneratingAd || !posterPrompt.trim()}
-                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm disabled:opacity-50"
                       >
                         <Play className="w-3.5 h-3.5" />
                         <span>{isGeneratingAd ? 'Veo rendering (~1 min)...' : 'Ad video'}</span>
@@ -1590,7 +1590,7 @@ export default function App() {
                     {posterUrls.length > 0 && (
                       <div className="grid grid-cols-2 gap-2">
                         {posterUrls.map((url, idx) => (
-                          <a key={idx} href={url} target="_blank" rel="noreferrer" className="block rounded-xl overflow-hidden border border-stone-200 hover:border-[#8c6d3b] transition">
+                          <a key={idx} href={url} target="_blank" rel="noreferrer" className="block rounded-xl overflow-hidden border border-stone-200 hover:border-[#a53600] transition">
                             <img src={url} alt={`Poster option ${idx + 1}`} className="w-full h-auto" />
                             <span className="block text-center text-[9px] text-stone-500 font-mono py-1">Option {idx + 1} — click to open</span>
                           </a>
@@ -1609,8 +1609,8 @@ export default function App() {
                           <div className="flex flex-col gap-1 max-h-36 overflow-y-auto">
                             <span className="text-[9px] text-stone-500 uppercase font-mono">Storyboard</span>
                             {adKit.storyboard.map((s: any, idx: number) => (
-                              <div key={idx} className="p-2 rounded-lg border border-stone-200 bg-[#faf9f6] text-[10px] text-stone-600">
-                                <b className="text-[#8c6d3b]">Shot {idx + 1}</b> ({s.durationSec}s): {s.scene} — <i>"{s.onScreenText}"</i>
+                              <div key={idx} className="p-2 rounded-lg border border-stone-200 bg-[#fff1ec] text-[10px] text-stone-600">
+                                <b className="text-[#a53600]">Shot {idx + 1}</b> ({s.durationSec}s): {s.scene} — <i>"{s.onScreenText}"</i>
                               </div>
                             ))}
                           </div>
@@ -1624,7 +1624,7 @@ export default function App() {
                 {activeView === 'Creative' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Mic className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Mic className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Caption & Voiceover Studio</h3>
                     </div>
 
@@ -1633,7 +1633,7 @@ export default function App() {
                       value={captionProduct}
                       onChange={(e) => setCaptionProduct(e.target.value)}
                       placeholder="What are we promoting? e.g. 'CAZ Drop 001 at ₹549'"
-                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600]"
                     />
                     <div className="grid grid-cols-2 gap-2">
                       <select
@@ -1650,7 +1650,7 @@ export default function App() {
                       <button
                         onClick={generateCaptions}
                         disabled={isGeneratingCaptions || !captionProduct.trim()}
-                        className="py-2 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                        className="py-2 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm disabled:opacity-50"
                       >
                         {isGeneratingCaptions ? 'Writing...' : 'Generate captions'}
                       </button>
@@ -1659,7 +1659,7 @@ export default function App() {
                     {captionResult && (
                       <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
                         {(captionResult.captions || []).map((c: string, idx: number) => (
-                          <div key={idx} className="p-2.5 rounded-lg border border-stone-200 bg-[#faf9f6] text-[11px] text-stone-700 whitespace-pre-wrap">{c}</div>
+                          <div key={idx} className="p-2.5 rounded-lg border border-stone-200 bg-[#fff1ec] text-[11px] text-stone-700 whitespace-pre-wrap">{c}</div>
                         ))}
                         {captionResult.voScript && (
                           <div className="border-t border-stone-200/80 pt-2 flex flex-col gap-2">
@@ -1668,7 +1668,7 @@ export default function App() {
                             <button
                               onClick={() => generateVoiceover(captionResult.voScript)}
                               disabled={isGeneratingVo}
-                              className="flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-white bg-gradient-to-r from-stone-800 to-stone-700 rounded-xl transition shadow-sm disabled:opacity-50"
+                              className="flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] rounded-xl transition shadow-sm disabled:opacity-50"
                             >
                               <Mic className="w-3.5 h-3.5" />
                               <span>{isGeneratingVo ? 'Recording voiceover...' : 'Generate voiceover'}</span>
@@ -1685,7 +1685,7 @@ export default function App() {
                 {activeView === 'Deck' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <FileText className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <FileText className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Investor Deck Builder</h3>
                     </div>
                     <p className="text-[10px] text-stone-500 leading-relaxed">
@@ -1696,25 +1696,25 @@ export default function App() {
                       value={deckFocus}
                       onChange={(e) => setDeckFocus(e.target.value)}
                       placeholder="Optional focus... e.g. 'seed round, emphasize unit economics'"
-                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#a53600]"
                     />
                     <button
                       onClick={generateRealDeck}
                       disabled={isGeneratingDeck}
-                      className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                      className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#a53600] hover:bg-[#812800] rounded-xl transition shadow-sm disabled:opacity-50"
                     >
                       <FileText className="w-4 h-4" />
                       <span>{isGeneratingDeck ? 'Building deck from agent context...' : 'Generate PPTX deck'}</span>
                     </button>
                     {deckResult && (
                       <div className="flex flex-col gap-2">
-                        <a href={deckResult.url} download className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#8c6d3b] bg-[#8c6d3b]/10 border border-[#8c6d3b]/20 rounded-xl hover:bg-[#8c6d3b]/15 transition">
+                        <a href={deckResult.url} download className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#a53600] bg-[#a53600]/10 border border-[#a53600]/20 rounded-xl hover:bg-[#a53600]/15 transition">
                           <Download className="w-4 h-4" />
                           <span>Download deck (.pptx)</span>
                         </a>
                         <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
                           {(deckResult.slides || []).map((s: any, idx: number) => (
-                            <div key={idx} className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-[#faf9f6] text-[10px] text-stone-600">
+                            <div key={idx} className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-[#fff1ec] text-[10px] text-stone-600">
                               <b>{idx + 1}.</b> {s.title}
                             </div>
                           ))}
@@ -1728,13 +1728,13 @@ export default function App() {
                 {activeView === 'Code' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Code className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Code className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Code Support — Antigravity</h3>
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
                       Chat with the Code Support agent for stack and architecture advice. Direct code-editing automation (edit your live product in plain language) plugs in here when <b>Ashish's Antigravity track</b> ships.
                     </p>
-                    <div className="p-3 rounded-xl border border-dashed border-[#8c6d3b]/40 bg-[#faf9f6] text-[10px] font-mono text-stone-500 text-center">
+                    <div className="p-3 rounded-xl border border-dashed border-[#a53600]/40 bg-[#fff1ec] text-[10px] font-mono text-stone-500 text-center">
                       ANTIGRAVITY INTEGRATION SLOT — pending Gemma vault edit/version API
                     </div>
                   </div>
@@ -1744,16 +1744,16 @@ export default function App() {
                 {activeView === 'Engineering' && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
-                      <Code className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Code className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Repository Status</h3>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 text-xs">
-                      <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200">
+                      <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200">
                         <span className="text-stone-500 block text-[9px] uppercase">Active Repo</span>
                         <span className="font-mono text-stone-800">git-worktree/orbit-monorepo</span>
                       </div>
-                      <div className="p-3 rounded-xl bg-[#faf9f6] border border-stone-200">
+                      <div className="p-3 rounded-xl bg-[#fff1ec] border border-stone-200">
                         <span className="text-stone-500 block text-[9px] uppercase">Build status</span>
                         <span className="font-mono text-emerald-850 font-bold uppercase">{context?.technical.buildStatus}</span>
                       </div>
@@ -1765,13 +1765,13 @@ export default function App() {
                 {['Research', 'Finance', 'Marketing', 'Creative', 'Deck', 'Code'].indexOf(activeView) === -1 && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/85 pb-3">
-                      <Cpu className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <Cpu className="w-4.5 h-4.5 text-[#a53600]" />
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">{activeView} Workspace Board</h3>
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
                       This board displays live assets, document logs, and operational registers associated with the **{activeView} Department** execution tasks.
                     </p>
-                    <div className="p-4 rounded-xl border border-stone-200 bg-[#faf9f6] text-xs flex flex-col gap-2 font-mono">
+                    <div className="p-4 rounded-xl border border-stone-200 bg-[#fff1ec] text-xs flex flex-col gap-2 font-mono">
                       <div className="flex justify-between items-center">
                         <span className="text-stone-500">Task Stage:</span>
                         <span className="text-stone-800">Automated loop check passed</span>
