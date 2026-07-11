@@ -33,11 +33,11 @@ This file is the shared source of truth for what Preethesh and Deepthi are each 
 
 | Owner | Task | Status | Notes | Date |
 |---|---|---|---|---|
-| Preethesh | Landing page (all features) | Not started | | |
-| Preethesh | Onboarding: solo/team mode screen | Not started | | |
-| Preethesh | Team invite + role assignment UI | Not started | | |
-| Preethesh | Workflow/roadmap visualization (Step 0–9) | Not started | | |
-| Preethesh | Language selector + i18n plumbing | Not started | | |
+| Preethesh | Landing page (all features) | Done (v1) | `landing/index.html` on branch `preethesh/landing-page` | 2026-07-11 |
+| Preethesh | Onboarding: solo/team mode screen | Done (v1) | `landing/onboarding.html` | 2026-07-11 |
+| Preethesh | Team invite + role assignment UI | Done (v1) | In `onboarding.html`; in-memory only, needs Ashish/backend wiring | 2026-07-11 |
+| Preethesh | Workflow/roadmap visualization (Step 0–9) | Done (v1) | `landing/workflow.html`; statuses hardcoded, needs Manager Agent API | 2026-07-11 |
+| Preethesh | Language selector + i18n plumbing | Done (v1) | `landing/assets/i18n.js` — EN/HI/TA, data-i18n contract | 2026-07-11 |
 | Deepthi | Workspace shell + navigation + profile switching | Not started | | |
 | Deepthi | Agent activity dashboard | Not started | | |
 | Deepthi | Conflict Resolution feed UI | Not started | | |
