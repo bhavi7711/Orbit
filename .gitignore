@@ -1,0 +1,14 @@
+node_modules/
+dist/
+build/
+.env
+packages/server/orbit_secure_db.json
+packages/server/dist/
+packages/client/dist/
+packages/core/dist/
+*.log
+.system_generated/
+.gemini/
+.vs/
+.idea/
+.vscode/
