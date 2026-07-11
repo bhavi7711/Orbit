@@ -39,7 +39,9 @@ import {
   Check,
   Lock,
   Download,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Mic,
+  Upload
 } from 'lucide-react';
 import { StartupContext, AgentMessage, ExecutionTask, Conflict } from 'orbit-core';
 
@@ -55,11 +57,9 @@ interface PitchSlide {
   body: string;
 }
 
-// Sequence: Operations removed. Research -> Validation -> Competitor...
+// Final agent roster — the smart build-and-scale ecosystem.
 const DEPT_SEQUENCE = [
-  'Research', 'Validation', 'Competitor', 'Finance', 'Legal', 'Brand', 
-  'Product', 'Design', 'Engineering', 'QA', 'Marketing', 'Sales', 
-  'Support', 'Analytics', 'Conflict'
+  'Research', 'Finance', 'Marketing', 'Creative', 'Deck', 'Code', 'Conflict'
 ];
 
 export default function App() {
@@ -85,9 +85,29 @@ export default function App() {
   const [isChatLoading, setIsChatLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Marketing Nano Banana & Insta mock
+  // Marketing Studio (real Nano Banana + Veo)
   const [bananaImages, setBananaImages] = useState<Array<{ type: string; prompt: string }>>([]);
   const [isGeneratingBanana, setIsGeneratingBanana] = useState(false);
+  const [posterPrompt, setPosterPrompt] = useState('');
+  const [posterUrls, setPosterUrls] = useState<string[]>([]);
+  const [isGeneratingAd, setIsGeneratingAd] = useState(false);
+  const [adKit, setAdKit] = useState<any>(null);
+
+  // Creative Agent (captions + voiceover)
+  const [captionProduct, setCaptionProduct] = useState('');
+  const [captionLanguage, setCaptionLanguage] = useState('English');
+  const [captionResult, setCaptionResult] = useState<any>(null);
+  const [isGeneratingCaptions, setIsGeneratingCaptions] = useState(false);
+  const [voUrl, setVoUrl] = useState('');
+  const [isGeneratingVo, setIsGeneratingVo] = useState(false);
+
+  // Deck Agent (real PPTX)
+  const [deckFocus, setDeckFocus] = useState('');
+  const [deckResult, setDeckResult] = useState<any>(null);
+  const [isGeneratingDeck, setIsGeneratingDeck] = useState(false);
+
+  // Context upload
+  const [uploadStatus, setUploadStatus] = useState('');
   const [instaUsername, setInstaUsername] = useState('');
   const [instaStatus, setInstaStatus] = useState<'disconnected' | 'connecting' | 'connected'>('disconnected');
 
@@ -443,18 +463,123 @@ export default function App() {
     }
   };
 
-  // Generate GTM visuals via Nano Banana
-  const triggerNanoBanana = () => {
+  // ── REAL Nano Banana poster generation (multiple options) ──
+  const triggerNanoBanana = async () => {
+    if (!posterPrompt.trim()) return;
     setIsGeneratingBanana(true);
-    setTimeout(() => {
-      const niche = context?.business.niche || 'Startup Product';
-      setBananaImages([
-        { type: 'Lifestyle Photography', prompt: `High-resolution visual layout of customers utilizing ${niche} on a modern screen, clean corporate lighting.` },
-        { type: 'Instagram Post creative', prompt: `Obsidian-themed layout showcasing logo tokens, accent colors, and tagline "${context?.marketing.taglines[0] || 'Automate the core'}"` },
-        { type: 'Hoodie / Merchandise mockup', prompt: `Minimalist dark mockup with front print layout showing company name "${context?.companyName}"` }
-      ]);
+    setPosterUrls([]);
+    try {
+      const res = await fetch('/api/marketing/poster', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: posterPrompt, count: 2, workspaceId })
+      });
+      const data = await res.json();
+      if (res.ok) setPosterUrls((data.options || []).map((o: any) => o.url));
+    } catch (err) {
+      console.error('Poster generation error', err);
+    } finally {
       setIsGeneratingBanana(false);
-    }, 2000);
+    }
+  };
+
+  // ── REAL Veo ad-video kit (falls back to storyboard) ──
+  const triggerAdKit = async () => {
+    if (!posterPrompt.trim()) return;
+    setIsGeneratingAd(true);
+    setAdKit(null);
+    try {
+      const res = await fetch('/api/marketing/adkit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: posterPrompt, workspaceId })
+      });
+      if (res.ok) setAdKit(await res.json());
+    } catch (err) {
+      console.error('Ad kit error', err);
+    } finally {
+      setIsGeneratingAd(false);
+    }
+  };
+
+  // ── Caption & Voice Agent handlers ──
+  const generateCaptions = async () => {
+    if (!captionProduct.trim()) return;
+    setIsGeneratingCaptions(true);
+    setCaptionResult(null);
+    try {
+      const res = await fetch('/api/creative/captions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ product: captionProduct, platform: 'Instagram', language: captionLanguage, workspaceId })
+      });
+      if (res.ok) setCaptionResult(await res.json());
+    } catch (err) {
+      console.error('Caption error', err);
+    } finally {
+      setIsGeneratingCaptions(false);
+    }
+  };
+
+  const generateVoiceover = async (text: string) => {
+    if (!text.trim()) return;
+    setIsGeneratingVo(true);
+    setVoUrl('');
+    try {
+      const res = await fetch('/api/creative/voiceover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+      const data = await res.json();
+      if (res.ok) setVoUrl(data.url);
+    } catch (err) {
+      console.error('Voiceover error', err);
+    } finally {
+      setIsGeneratingVo(false);
+    }
+  };
+
+  // ── Pitch Deck Agent: real PPTX from live agent context ──
+  const generateRealDeck = async () => {
+    setIsGeneratingDeck(true);
+    setDeckResult(null);
+    try {
+      const res = await fetch('/api/deck/generate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspaceId, focus: deckFocus })
+      });
+      if (res.ok) setDeckResult(await res.json());
+    } catch (err) {
+      console.error('Deck error', err);
+    } finally {
+      setIsGeneratingDeck(false);
+    }
+  };
+
+  // ── Context file upload → shared agent memory ──
+  const handleContextFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadStatus('Uploading & summarizing...');
+    const reader = new FileReader();
+    reader.onload = async () => {
+      try {
+        const res = await fetch('/api/context/upload', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ filename: file.name, content: reader.result, workspaceId })
+        });
+        const data = await res.json();
+        setUploadStatus(res.ok ? `✓ ${file.name} ingested — agents now know: ${String(data.summary || '').slice(0, 120)}...` : 'Upload failed');
+      } catch {
+        setUploadStatus('Upload failed');
+      }
+    };
+    // Text files as text (so agents can read), everything else as data URL
+    if (file.type.startsWith('text') || /\.(txt|md|csv|json)$/i.test(file.name)) reader.readAsText(file);
+    else reader.readAsDataURL(file);
   };
 
   // Instagram account hook
@@ -574,22 +699,15 @@ export default function App() {
     }
   };
 
-  // Operations removed from client display lists
+  // Final roster: every agent here is real (Gemini-powered) except Code,
+  // which is the integration point for Ashish's Antigravity track.
   const departmentsList = [
-    { name: 'Research', icon: BookOpen, color: 'from-[#8c6d3b] to-[#bca374]', description: 'TAM/SAM validation, competitor audits, and gap reports.' },
-    { name: 'Validation', icon: Activity, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'ICP definitions, customer surveys, landing page conversion tests.' },
-    { name: 'Competitor', icon: TrendingUp, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Scrapes features, tracks pricing indices, recommends USP direction.' },
-    { name: 'Finance', icon: DollarSign, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Runway calculator, burn-rate simulations, hiring infrastructure boards.' },
-    { name: 'Legal', icon: Scale, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Founder agreements, compliance registers, trademark clearance audits.' },
-    { name: 'Brand', icon: Palette, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Colors, typography assets, taglines, GTM visual directories.' },
-    { name: 'Product', icon: Layers, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Feature roadmap pipelines, user story points, PRD spec creation.' },
-    { name: 'Design', icon: Palette, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Stitch canvas layout coordination, prototypes, responsive frames.' },
-    { name: 'Engineering', icon: Code, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Synthesizes code files, sets up databases, deploys git repositories.' },
-    { name: 'QA', icon: CheckSquare, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Smoke tests, integration pipelines, accessibility audits.' },
-    { name: 'Marketing', icon: Zap, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Outbound campaign scheduling, GTM social cards, Nano Banana design assets.' },
-    { name: 'Sales', icon: Briefcase, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Outreach pipelines, draft contracts, pricing tier calculators.' },
-    { name: 'Support', icon: HelpCircle, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Builds FAQs, supports ticketers, reviews sentiment analysis.' },
-    { name: 'Analytics', icon: BarChart3, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Visitor heatmaps, purchase conversions, growth statistics.' },
+    { name: 'Research', icon: BookOpen, color: 'from-[#8c6d3b] to-[#bca374]', description: 'REAL market research via live Google Search: sizes, competitors, prices.' },
+    { name: 'Finance', icon: DollarSign, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Financial support: runway, unit economics, pricing, funding options.' },
+    { name: 'Marketing', icon: Zap, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Growth strategy + Nano Banana poster studio + Veo ad videos.' },
+    { name: 'Creative', icon: Mic, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Captions in any language + real TTS voiceovers for your ads.' },
+    { name: 'Deck', icon: FileText, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Investor pitch deck built from live agent context, exported as PPTX.' },
+    { name: 'Code', icon: Code, color: 'from-[#8c6d3b] to-[#bca374]', description: 'Code support — Antigravity integration (Ashish\'s track, coming soon).' },
     { name: 'Conflict', icon: Settings2, color: 'from-[#8c6d3b] to-[#c29f68]', description: 'Mediates department contradictions, outputs compromise logs.' }
   ];
 
@@ -870,6 +988,21 @@ export default function App() {
                         </div>
                       ))
                     )}
+                  </div>
+
+                  {/* Context document upload — every agent gets the extracted facts */}
+                  <div className="border-t border-stone-200/80 pt-3 mt-3 flex flex-col gap-2">
+                    <div className="flex items-center gap-1.5">
+                      <Upload className="w-3.5 h-3.5 text-[#8c6d3b]" />
+                      <span className="text-[10px] font-bold text-stone-700 font-outfit">Upload business context</span>
+                    </div>
+                    <p className="text-[9px] text-stone-500 leading-relaxed">Invoices, ITRs, plans (txt/md/csv/pdf). Summarized locally — all agents get the facts, never the raw file.</p>
+                    <label className="w-full flex items-center justify-center gap-1.5 py-2 text-[11px] font-medium text-stone-700 bg-stone-100 hover:bg-stone-200 border border-stone-200 rounded cursor-pointer transition">
+                      <Upload className="w-3 h-3" />
+                      <span>Choose file to ingest</span>
+                      <input type="file" onChange={handleContextFile} className="hidden" accept=".txt,.md,.csv,.json,.pdf" />
+                    </label>
+                    {uploadStatus && <p className="text-[9px] text-emerald-700 font-mono leading-relaxed">{uploadStatus}</p>}
                   </div>
                 </div>
               </div>
@@ -1420,73 +1553,190 @@ export default function App() {
                   </div>
                 )}
 
-                {/* SALES & MARKETING WIDGETS: NANO BANANA INTEGRATION */}
-                {(activeView === 'Marketing' || activeView === 'Sales') && (
-                  <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-5 bg-white/70 border-stone-200/70">
+                {/* MARKETING STUDIO: REAL NANO BANANA POSTERS + VEO AD VIDEOS */}
+                {activeView === 'Marketing' && (
+                  <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
                       <Image className="w-4.5 h-4.5 text-[#8c6d3b]" />
-                      <h3 className="font-bold text-stone-900 font-outfit text-sm">Nano Banana Engine</h3>
+                      <h3 className="font-bold text-stone-900 font-outfit text-sm">Poster & Ad Studio (Nano Banana + Veo)</h3>
                     </div>
 
-                    {/* Nano Banana Generator */}
-                    <button 
-                      onClick={triggerNanoBanana}
-                      disabled={isGeneratingBanana}
-                      className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-gradient-to-r from-stone-800 to-stone-700 hover:from-stone-900 hover:to-stone-800 rounded-xl transition shadow-sm disabled:opacity-50"
-                    >
-                      <Image className="w-4 h-4" />
-                      <span>{isGeneratingBanana ? 'Generating...' : 'Generate via Nano Banana'}</span>
-                    </button>
+                    <textarea
+                      value={posterPrompt}
+                      onChange={(e) => setPosterPrompt(e.target.value)}
+                      placeholder="Describe the poster/ad... e.g. 'CAZ Drop 001 oversized tees, bold orange typography, college streetwear vibe'"
+                      className="w-full h-16 p-2.5 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b] resize-none"
+                    />
 
-                    {bananaImages.length > 0 && (
-                      <div className="flex flex-col gap-2 max-h-48 overflow-y-auto pr-1">
-                        <span className="text-[9px] text-stone-500 uppercase font-mono">Generated Assets</span>
-                        {bananaImages.map((img, idx) => (
-                          <div key={idx} className="p-2.5 rounded-lg border border-stone-200 bg-[#faf9f6] text-xs">
-                            <span className="font-bold text-[#8c6d3b] text-[10px] uppercase font-mono block mb-1">{img.type}</span>
-                            <p className="text-[11px] text-stone-600 italic">"{img.prompt}"</p>
-                          </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={triggerNanoBanana}
+                        disabled={isGeneratingBanana || !posterPrompt.trim()}
+                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-gradient-to-r from-stone-800 to-stone-700 hover:from-stone-900 hover:to-stone-800 rounded-xl transition shadow-sm disabled:opacity-50"
+                      >
+                        <Image className="w-3.5 h-3.5" />
+                        <span>{isGeneratingBanana ? 'Rendering...' : 'Poster options'}</span>
+                      </button>
+                      <button
+                        onClick={triggerAdKit}
+                        disabled={isGeneratingAd || !posterPrompt.trim()}
+                        className="flex items-center justify-center gap-1.5 py-2.5 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                      >
+                        <Play className="w-3.5 h-3.5" />
+                        <span>{isGeneratingAd ? 'Veo rendering (~1 min)...' : 'Ad video'}</span>
+                      </button>
+                    </div>
+
+                    {posterUrls.length > 0 && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {posterUrls.map((url, idx) => (
+                          <a key={idx} href={url} target="_blank" rel="noreferrer" className="block rounded-xl overflow-hidden border border-stone-200 hover:border-[#8c6d3b] transition">
+                            <img src={url} alt={`Poster option ${idx + 1}`} className="w-full h-auto" />
+                            <span className="block text-center text-[9px] text-stone-500 font-mono py-1">Option {idx + 1} — click to open</span>
+                          </a>
                         ))}
                       </div>
                     )}
 
-                    {/* Instagram Account Connection (Marketing Only) */}
-                    {activeView === 'Marketing' && (
-                      <div className="border-t border-stone-200/80 pt-4">
-                        <div className="flex items-center gap-2 mb-3">
-                          <Instagram className="w-4.5 h-4.5 text-pink-700" />
-                          <h4 className="font-bold text-stone-800 font-outfit text-xs">Instagram Automation</h4>
-                        </div>
-
-                        {instaStatus === 'disconnected' ? (
-                          <form onSubmit={handleConnectInsta} className="flex gap-2">
-                            <input 
-                              type="text"
-                              value={instaUsername}
-                              onChange={(e) => setInstaUsername(e.target.value)}
-                              placeholder="Insta Username"
-                              className="flex-1 px-2.5 py-1.5 text-xs text-stone-800 rounded-lg bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
-                            />
-                            <button 
-                              type="submit"
-                              className="px-3 py-1.5 text-xs font-bold text-stone-750 bg-stone-100 border border-stone-300 hover:bg-stone-200 rounded-lg"
-                            >
-                              Link
-                            </button>
-                          </form>
-                        ) : instaStatus === 'connecting' ? (
-                          <div className="text-xs text-stone-500 italic animate-pulse">Connecting to instagram API...</div>
+                    {adKit && (
+                      <div className="flex flex-col gap-2 border-t border-stone-200/80 pt-3">
+                        {adKit.video ? (
+                          <video src={adKit.video} controls className="w-full rounded-xl border border-stone-200" />
                         ) : (
-                          <div className="p-2.5 rounded-lg border border-emerald-250 bg-emerald-50/20 text-xs flex items-center justify-between">
-                            <span className="text-stone-850 font-semibold text-[10px]">@{instaUsername} connected</span>
-                            <span className="text-[9px] text-emerald-800 font-mono flex items-center gap-1 font-bold">
-                              <CheckCircle className="w-3 h-3 fill-current text-emerald-600" />
-                              Active
-                            </span>
+                          <span className="text-[10px] text-stone-500 italic">{adKit.note}</span>
+                        )}
+                        {(adKit.storyboard || []).length > 0 && (
+                          <div className="flex flex-col gap-1 max-h-36 overflow-y-auto">
+                            <span className="text-[9px] text-stone-500 uppercase font-mono">Storyboard</span>
+                            {adKit.storyboard.map((s: any, idx: number) => (
+                              <div key={idx} className="p-2 rounded-lg border border-stone-200 bg-[#faf9f6] text-[10px] text-stone-600">
+                                <b className="text-[#8c6d3b]">Shot {idx + 1}</b> ({s.durationSec}s): {s.scene} — <i>"{s.onScreenText}"</i>
+                              </div>
+                            ))}
                           </div>
                         )}
                       </div>
                     )}
+                  </div>
+                )}
+
+                {/* CREATIVE AGENT: CAPTIONS + REAL TTS VOICEOVER */}
+                {activeView === 'Creative' && (
+                  <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
+                    <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
+                      <Mic className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <h3 className="font-bold text-stone-900 font-outfit text-sm">Caption & Voiceover Studio</h3>
+                    </div>
+
+                    <input
+                      type="text"
+                      value={captionProduct}
+                      onChange={(e) => setCaptionProduct(e.target.value)}
+                      placeholder="What are we promoting? e.g. 'CAZ Drop 001 at ₹549'"
+                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                    />
+                    <div className="grid grid-cols-2 gap-2">
+                      <select
+                        value={captionLanguage}
+                        onChange={(e) => setCaptionLanguage(e.target.value)}
+                        className="px-2.5 py-2 text-xs text-stone-800 rounded-xl bg-white border border-stone-200 focus:outline-none"
+                      >
+                        <option>English</option>
+                        <option>English + Hindi mix</option>
+                        <option>Hindi</option>
+                        <option>Tamil</option>
+                        <option>Kannada</option>
+                      </select>
+                      <button
+                        onClick={generateCaptions}
+                        disabled={isGeneratingCaptions || !captionProduct.trim()}
+                        className="py-2 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                      >
+                        {isGeneratingCaptions ? 'Writing...' : 'Generate captions'}
+                      </button>
+                    </div>
+
+                    {captionResult && (
+                      <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+                        {(captionResult.captions || []).map((c: string, idx: number) => (
+                          <div key={idx} className="p-2.5 rounded-lg border border-stone-200 bg-[#faf9f6] text-[11px] text-stone-700 whitespace-pre-wrap">{c}</div>
+                        ))}
+                        {captionResult.voScript && (
+                          <div className="border-t border-stone-200/80 pt-2 flex flex-col gap-2">
+                            <span className="text-[9px] text-stone-500 uppercase font-mono">Voiceover script</span>
+                            <p className="text-[11px] text-stone-700 italic">"{captionResult.voScript}"</p>
+                            <button
+                              onClick={() => generateVoiceover(captionResult.voScript)}
+                              disabled={isGeneratingVo}
+                              className="flex items-center justify-center gap-1.5 py-2 text-xs font-bold text-white bg-gradient-to-r from-stone-800 to-stone-700 rounded-xl transition shadow-sm disabled:opacity-50"
+                            >
+                              <Mic className="w-3.5 h-3.5" />
+                              <span>{isGeneratingVo ? 'Recording voiceover...' : 'Generate voiceover'}</span>
+                            </button>
+                            {voUrl && <audio src={voUrl} controls className="w-full" />}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* DECK AGENT: REAL PPTX FROM LIVE CONTEXT */}
+                {activeView === 'Deck' && (
+                  <div className="glass-panel rounded-2xl p-5 shadow-2xl flex flex-col gap-4 bg-white/70 border-stone-200/70">
+                    <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
+                      <FileText className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <h3 className="font-bold text-stone-900 font-outfit text-sm">Investor Deck Builder</h3>
+                    </div>
+                    <p className="text-[10px] text-stone-500 leading-relaxed">
+                      Builds a 10-slide PPTX grounded in what all the other agents have actually found — research, financials, uploaded documents.
+                    </p>
+                    <input
+                      type="text"
+                      value={deckFocus}
+                      onChange={(e) => setDeckFocus(e.target.value)}
+                      placeholder="Optional focus... e.g. 'seed round, emphasize unit economics'"
+                      className="w-full px-3 py-2 text-xs text-stone-850 rounded-xl bg-white border border-stone-200 focus:outline-none focus:border-[#8c6d3b]"
+                    />
+                    <button
+                      onClick={generateRealDeck}
+                      disabled={isGeneratingDeck}
+                      className="w-full flex items-center justify-center gap-2 py-3 text-xs font-bold text-white bg-[#8c6d3b] hover:bg-[#70552b] rounded-xl transition shadow-sm disabled:opacity-50"
+                    >
+                      <FileText className="w-4 h-4" />
+                      <span>{isGeneratingDeck ? 'Building deck from agent context...' : 'Generate PPTX deck'}</span>
+                    </button>
+                    {deckResult && (
+                      <div className="flex flex-col gap-2">
+                        <a href={deckResult.url} download className="flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[#8c6d3b] bg-[#8c6d3b]/10 border border-[#8c6d3b]/20 rounded-xl hover:bg-[#8c6d3b]/15 transition">
+                          <Download className="w-4 h-4" />
+                          <span>Download deck (.pptx)</span>
+                        </a>
+                        <div className="flex flex-col gap-1 max-h-40 overflow-y-auto">
+                          {(deckResult.slides || []).map((s: any, idx: number) => (
+                            <div key={idx} className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-[#faf9f6] text-[10px] text-stone-600">
+                              <b>{idx + 1}.</b> {s.title}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* CODE SUPPORT: ASHISH'S ANTIGRAVITY INTEGRATION POINT */}
+                {activeView === 'Code' && (
+                  <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-4 bg-white/70 border-stone-200/70">
+                    <div className="flex items-center gap-2 border-b border-stone-200/80 pb-3">
+                      <Code className="w-4.5 h-4.5 text-[#8c6d3b]" />
+                      <h3 className="font-bold text-stone-900 font-outfit text-sm">Code Support — Antigravity</h3>
+                    </div>
+                    <p className="text-xs text-stone-600 leading-relaxed">
+                      Chat with the Code Support agent for stack and architecture advice. Direct code-editing automation (edit your live product in plain language) plugs in here when <b>Ashish's Antigravity track</b> ships.
+                    </p>
+                    <div className="p-3 rounded-xl border border-dashed border-[#8c6d3b]/40 bg-[#faf9f6] text-[10px] font-mono text-stone-500 text-center">
+                      ANTIGRAVITY INTEGRATION SLOT — pending Gemma vault edit/version API
+                    </div>
                   </div>
                 )}
 
@@ -1512,7 +1762,7 @@ export default function App() {
                 )}
 
                 {/* FALLBACK FOR OTHER WIDGETS */}
-                {['Research', 'Validation', 'Brand', 'Marketing', 'Sales', 'Finance', 'Engineering'].indexOf(activeView) === -1 && (
+                {['Research', 'Finance', 'Marketing', 'Creative', 'Deck', 'Code'].indexOf(activeView) === -1 && (
                   <div className="glass-panel rounded-2xl p-5 shadow-sm flex flex-col gap-4 bg-white/70 border-stone-200/70">
                     <div className="flex items-center gap-2 border-b border-stone-200/85 pb-3">
                       <Cpu className="w-4.5 h-4.5 text-[#8c6d3b]" />

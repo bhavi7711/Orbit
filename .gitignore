@@ -12,3 +12,11 @@ packages/core/dist/
 .vs/
 .idea/
 .vscode/
+
+# Compiled artifacts must never be committed (they shadow .tsx in Vite)
+*.tsbuildinfo
+packages/client/src/**/*.js
+packages/client/src/**/*.js.map
+packages/client/src/**/*.d.ts
+packages/client/src/**/*.d.ts.map
+packages/server/uploads/

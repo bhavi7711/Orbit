@@ -3,6 +3,11 @@ import cors from 'cors';
 import { db } from './db.js';
 import { StartupContext, AgentMessage, ExecutionTask, Conflict } from 'orbit-core';
 import { readFileSync, existsSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { registerCreative } from './creative.js';
+
+const __dirnameServer = dirname(fileURLToPath(import.meta.url));
 
 // Simple local .env parser
 if (existsSync('.env')) {
@@ -544,11 +549,10 @@ async function runSimulatorLoop(workspaceId: string) {
   }
 }
 
-// Department Unlock Sequence List
+// Department Unlock Sequence List — must match the client roster
+// (packages/client/src/App.tsx DEPT_SEQUENCE)
 const DEPT_SEQUENCE = [
-  'Research', 'Validation', 'Competitor', 'Finance', 'Legal', 'Brand', 
-  'Product', 'Design', 'Engineering', 'QA', 'Marketing', 'Sales', 
-  'Support', 'Analytics', 'Conflict', 'Operations'
+  'Research', 'Finance', 'Marketing', 'Creative', 'Deck', 'Code', 'Conflict'
 ];
 
 // Complete department and unlock next
@@ -592,31 +596,65 @@ app.post('/api/context/complete', (req, res) => {
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY || '';
 
+/* Final agent roster — a smart ecosystem for building AND scaling a real
+   business. Departments removed from the dashboard keep no prompt here. */
 const AGENT_SYSTEM_PROMPTS: Record<string, string> = {
-  operations: "You are the Chief Operations Officer of Orbit. Focus on workflow tasks, stage gates, and timelines. Encourage progressive completion. Speak like an experienced COO with 10+ years experience, direct, pragmatic, organized.",
-  research: "You are an experienced Startup Market Researcher. Debates with the founder. Why build this? What problem is solved? Who exactly experiences this? Why hasn't someone solved it properly? Would people pay? Suggest scope reductions and B2B SaaS angles. Never blindly agree. Keep it conversational, ask direct, intelligent follow-up questions.",
-  validation: "You are the Product-Market Fit Validation Lead. Challenge assumptions, determine ICP validation surveys, and question pricing metrics. If pricing is too low or MVP is bloated, tell the founder directly and suggest reductions. Ask hard PMF feasibility questions.",
-  competitor: "You are the Competitive Intelligence Lead. Identify market gaps, analyze competitor pricing, outline solid USPs, and suggest positioning strategies. Ask about differentiation.",
-  finance: "You are the CFO. Focus on runway, burn rate, and budget optimizers. If the founder says their budget is small (e.g. ₹3 Lakhs), push back and force cheaper local infra setups (e.g. local SQLite instead of heavy clouds), delay developers, and estimate runway.",
-  legal: "You are General Counsel. Advise on GST registrations, trademarks, NDAs, and GDPR risk checklists.",
-  brand: "You are the Chief Brand Strategist. Formulate voice, tone, visual assets, taglines, color ideas, and slide deck guides. Suggest brand names.",
-  product: "You are the Principal Product Manager. prioritize MVP roadmaps, user stories, and feature backlog prioritizations.",
-  design: "You are the Lead UX Designer. Detail dashboard UI layout structures, Google Stitch design tokens, and user flow accessibility.",
-  engineering: "You are the Tech Lead. Map application folders, SQLite context pipelines, authentication routes, and deployment paths.",
-  qa: "You are the QA Manager. Design security testing routines, regression tests, and unit smoke testing setups.",
-  marketing: "You are the CMO. Focus on GTM, Product Hunt launch strategies, and viral growth loops. Reference Slack or Figma models. Explain why they worked and propose original campaign ideas.",
-  sales: "You are Head of Sales. Design cold emails, WhatsApp outreach, CRM pipeline columns, and sales target conversions.",
-  support: "You are Customer Success Lead. Mapped FAQs, ticketing escalation guidelines, and retention metrics.",
-  analytics: "You are the Chief Analytics Officer. Set up retention metrics, conversion funnels, and visitor dashboards.",
-  conflict: "You are the Executive Board Mediator. Resolve disputes, detail tradeoffs, and suggest compromises to unlock execution."
+  research: "You are the Research Agent with LIVE Google Search access. Do REAL research: current market sizes with sources, named competitors with actual prices, regulatory facts, demand signals. Debate the founder — why build this, who pays, why now. Ground every claim in what you actually find via search; cite what you found. Suggest both how to validate the idea AND how to scale it once validated.",
+  finance: "You are the Financial Support Agent (CFO). Real-world money help: runway, burn, unit economics, pricing, GST/tax planning for Indian founders, funding options (bootstrapping vs angels vs schemes like Startup India seed fund). If budget is small, force cheaper setups and compute exact runway. Always show the math. Advise on scaling costs too: what breaks financially at 10x volume.",
+  marketing: "You are the Marketing & Growth Agent. GTM plans, campaign ideas, growth loops, and channel strategy for real Indian + global markets. You are connected to a poster studio (Nano Banana image generation) and an ad-kit generator — when the founder wants creatives, tell them to use the Studio tab and propose the exact prompts to use. Focus on what scales: CAC vs LTV, organic loops, retention.",
+  creative: "You are the Caption & Voice Agent. You write scroll-stopping captions (Instagram/LinkedIn/WhatsApp, in English + Hindi + regional languages when asked), ad scripts with hooks in the first 2 seconds, and voiceover scripts. You are wired to a TTS engine for real voiceovers — keep VO scripts under 40 words unless asked.",
+  deck: "You are the Pitch Deck Agent. You build investor-grade decks: 10-slide structure (problem, solution, market, product, traction, model, competition, team, financials, ask). You are wired to a PPTX generator — produce tight, specific slide content from the live shared context (use the other agents' actual findings, not lorem ipsum).",
+  code: "You are the Code Support Agent (integration point for Ashish's Antigravity track). For now: advise on tech stack, app architecture, and deployment for the founder's product; note that direct code-editing automation lands when the Antigravity integration ships.",
+  conflict: "You are the Executive Board Mediator. Resolve disputes between agents, detail tradeoffs, and suggest compromises to unlock execution.",
+  operations: "You are the COO of Orbit. Own the roadmap, stage gates, and timelines across all agents. Direct, pragmatic, organized."
 };
 
-// Call Gemini API helper
-async function callGemini(systemInstruction: string, userMessage: string, chatHistory: string, contextData: any): Promise<string> {
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
-  
+// Cross-agent shared memory: what every other department has been doing,
+// plus any founder-uploaded context documents. Injected into every agent
+// prompt so agents genuinely know about each other's work.
+export function getSharedAgentContext(workspaceId: string): string {
+  const logs = db.prepare("SELECT sender, recipient, action, payload FROM local_agent_communication_log ORDER BY timestamp DESC LIMIT 14").all() as any[];
+  const activity = logs.reverse().map((l) => {
+    let detail = '';
+    try {
+      const p = JSON.parse(l.payload);
+      detail = (p.title || p.text || p.response || '').toString().slice(0, 160);
+    } catch { /* raw payload */ }
+    return `- [${l.sender} → ${l.recipient}] ${l.action}: ${detail}`;
+  }).join('\n');
+
+  let docs = '';
+  try {
+    const idxPath = join(__dirnameServer, '../uploads/index.json');
+    if (existsSync(idxPath)) {
+      const idx = JSON.parse(readFileSync(idxPath, 'utf8')) as any[];
+      docs = idx.map((d) => `- ${d.filename}: ${d.summary || d.preview || ''}`.slice(0, 600)).join('\n');
+    }
+  } catch { /* no docs yet */ }
+
+  return `Recent cross-agent activity (other departments' work — reference it, don't repeat it):
+${activity || '- (no activity yet)'}
+
+Founder-uploaded context documents:
+${docs || '- (none uploaded yet)'}`;
+}
+
+// Call Gemini API helper — real model, key via header, optional Google
+// Search grounding for agents that need live real-world data.
+async function callGemini(
+  systemInstruction: string,
+  userMessage: string,
+  chatHistory: string,
+  contextData: any,
+  opts: { useSearch?: boolean; workspaceId?: string } = {}
+): Promise<string> {
+  const model = 'gemini-3.5-flash';
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
   const systemPrompt = `System Role Context:
 ${systemInstruction}
+
+You are one agent in Orbit — an ecosystem of AI agents helping real-world founders build AND scale businesses. Be concrete and actionable: real numbers, real next steps, real Indian-market context where relevant. Coordinate with the other agents' work shown below instead of duplicating it.
 
 Active Startup Context Snapshot:
 - Company Name: ${contextData.companyName}
@@ -627,6 +665,8 @@ Active Startup Context Snapshot:
 - Burn Rate: $${contextData.financials.burnRate}/mo
 - Vision: ${contextData.founderProfile.vision}
 
+${getSharedAgentContext(opts.workspaceId || 'default-workspace')}
+
 Chat History Memory:
 ${chatHistory}
 
@@ -636,16 +676,17 @@ Agent:`;
   try {
     const res = await fetch(url, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': GEMINI_API_KEY },
       body: JSON.stringify({
         contents: [
           {
             parts: [{ text: systemPrompt }]
           }
         ],
+        ...(opts.useSearch ? { tools: [{ google_search: {} }] } : {}),
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 800
+          maxOutputTokens: 2500
         }
       })
     });
@@ -656,7 +697,8 @@ Agent:`;
     }
     
     const data = await res.json() as any;
-    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    // Grounded responses can span multiple parts — join them all
+    const text = data.candidates?.[0]?.content?.parts?.map((p: any) => p.text || '').join('');
     return text ? text.trim() : '';
   } catch (err) {
     console.error('Gemini API call failed:', err);
@@ -832,9 +874,14 @@ Please navigate to the **Conflict Center** in the sidebar and resolve this dispu
     return res.json({ response: blockMsg });
   }
 
-  // 3. Try Gemini API first for high-quality conversational responses
-  const systemPrompt = AGENT_SYSTEM_PROMPTS[department.toLowerCase()] || `You are the ${department} agent.`;
-  const apiResponse = await callGemini(systemPrompt, message, chatHistory, ctx);
+  // 3. Try Gemini API first for high-quality conversational responses.
+  //    Research gets live Google Search grounding for real-world data.
+  const dept = department.toLowerCase();
+  const systemPrompt = AGENT_SYSTEM_PROMPTS[dept] || `You are the ${department} agent.`;
+  const apiResponse = await callGemini(systemPrompt, message, chatHistory, ctx, {
+    useSearch: dept === 'research' || dept === 'marketing',
+    workspaceId,
+  });
   
   if (apiResponse) {
     // If user provides a budget limit, let's capture it dynamically in the SQLite context too
@@ -1031,6 +1078,15 @@ Context engine is synced. Active Stage is ${ctx.business.stage}. Tell me how I c
 });
 
 // Start Server
+// Creative studio + context upload endpoints (posters, captions, voiceover,
+// ad kit, PPTX deck, document upload) — see creative.ts
+registerCreative(app, { getContext, getSharedContext: getSharedAgentContext, logAgentAction: (sender: string, action: string, detail: string) => {
+  db.prepare(`
+    INSERT INTO local_agent_communication_log (message_id, sender, recipient, action, payload)
+    VALUES (?, ?, ?, ?, ?)
+  `).run('msg-' + Math.random().toString(36).substring(7), sender, 'founder', action, JSON.stringify({ title: detail }));
+}});
+
 app.listen(PORT, () => {
   console.log(`[Orbit Server] Running on http://localhost:${PORT}`);
 });
