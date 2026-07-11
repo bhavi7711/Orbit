@@ -38,6 +38,7 @@ This file is the shared source of truth for what Preethesh and Deepthi are each 
 | Preethesh | Team invite + role assignment UI | Done (v1) | In `onboarding.html`; in-memory only, needs Ashish/backend wiring | 2026-07-11 |
 | Preethesh | Workflow/roadmap visualization (Step 0–9) | Done (v1) | `landing/workflow.html`; statuses hardcoded, needs Manager Agent API | 2026-07-11 |
 | Preethesh | Language selector + i18n plumbing | Done (v1) | `landing/assets/i18n.js` — EN/HI/TA, data-i18n contract | 2026-07-11 |
+| Deepthi | Global UI theme / design system (tokens, type scale, motion presets) | Done | `workspace/` app scaffolded (Vite + React + TS + Tailwind + framer-motion); all pages must inherit from `workspace/src/theme/` | 2026-07-11 |
 | Deepthi | Workspace shell + navigation + profile switching | Not started | | |
 | Deepthi | Agent activity dashboard | Not started | | |
 | Deepthi | Conflict Resolution feed UI | Not started | | |
