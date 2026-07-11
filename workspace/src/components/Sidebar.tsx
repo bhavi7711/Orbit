@@ -21,14 +21,18 @@ interface SidebarProps {
 export function Sidebar({ view, onViewChange, profile, onProfileChange }: SidebarProps) {
   return (
     <aside className="flex w-64 shrink-0 flex-col border-r border-border bg-surface">
+      {/* Same logo markup as the landing pages (landing/index.html header) */}
       <div className="flex items-center gap-2 px-6 py-5 border-b border-border">
-        <span className="flex h-8 w-8 items-center justify-center rounded-pill bg-primary text-text-inverse font-semibold">
-          O
+        <span className="flex h-8 w-8 items-center justify-center rounded-pill bg-primary">
+          <span
+            className="material-symbols-outlined text-text-inverse"
+            style={{ fontSize: '18px' }}
+            aria-hidden
+          >
+            orbit
+          </span>
         </span>
-        <div>
-          <p className="text-card-title leading-tight">Orbit</p>
-          <p className="text-label text-text-secondary">Workspace</p>
-        </div>
+        <span className="text-xl font-extrabold tracking-tight">Orbit</span>
       </div>
 
       <nav className="flex-1 space-y-1 p-3" aria-label="Workspace">

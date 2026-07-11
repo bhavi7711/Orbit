@@ -40,3 +40,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 **Prompt/ask:** Dashboard colors looked different from Preethesh's landing; match his theme without altering any code.
 **Changes made:** Token *values* only — zero component/logic changes. `workspace/src/theme/tokens.css`: background `#F7F5F1`→`#FFF8F6` (landing `surface`), primary `#F0632A`→`#A53600` (landing `primary`), hover `#812800`, text `#1A1A1A`→`#261814` (landing `on-surface`), secondary text `#8A8580`→`#625E59` (landing `secondary`), border `#E8E4DE`→`#F2E0D8` (landing `outline-variant` at card weight). Mirrored in `theme/index.ts` and the theme README table.
 **Why:** This is exactly what the token system was built for — a palette swap touches one file and the entire dashboard re-skins; landing and workspace now read as one product.
+
+## [2026-07-11] — Sidebar logo matched to landing
+**Prompt/ask:** The workspace logo differed from the landing page's; make them identical.
+**Changes made:** `workspace/src/components/Sidebar.tsx` — logo block now uses the exact landing markup: orange circle + Material Symbols `orbit` glyph + extrabold "Orbit" wordmark (was a plain "O" initial + Orbit/Workspace two-liner). `workspace/index.html` — loads the Material Symbols Outlined font (same stylesheet the landing uses) and Inter 800 for the wordmark weight.
+**Why:** One brand mark across landing and workspace.
