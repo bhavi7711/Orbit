@@ -1,51 +1,33 @@
-import { motion } from 'framer-motion'
-import { hoverLift, slideUp, staggerContainer } from './theme'
+import { useState } from 'react'
+import { Sidebar } from './components/Sidebar'
+import type { ViewId } from './components/Sidebar'
+import { profiles } from './data/mock'
+import type { Profile } from './data/mock'
+import { AgentsView } from './views/AgentsView'
+import { ConflictsView } from './views/ConflictsView'
+import { AntigravityView } from './views/AntigravityView'
+import { VaultView } from './views/VaultView'
 
-/**
- * Placeholder root. No real pages yet — this renders a small token smoke test
- * so `npm run dev` visually confirms the theme (colors, type scale, card,
- * buttons, motion presets) is wired up. Replace with the workspace shell.
- */
 function App() {
-  return (
-    <motion.main
-      className="mx-auto max-w-3xl px-6 py-16 space-y-8"
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-    >
-      <motion.header variants={slideUp} className="space-y-2">
-        <p className="text-label uppercase tracking-widest text-text-secondary">
-          Orbit Workspace
-        </p>
-        <h1 className="text-page-title">Design system ready</h1>
-        <p className="text-body text-text-secondary">
-          Tokens, type scale, and motion presets are wired. Build pages on top
-          of these — never hardcode colors, sizes, or animations.
-        </p>
-      </motion.header>
+  const [view, setView] = useState<ViewId>('agents')
+  const [profile, setProfile] = useState<Profile>(profiles[0])
 
-      <motion.div variants={slideUp} {...hoverLift}>
-        <div className="card hover:shadow-lift transition-shadow duration-entrance ease-entrance space-y-4">
-          <h2 className="text-card-title">Sample card</h2>
-          <div className="flex items-baseline gap-2">
-            <span data-stat className="text-stat">
-              128
-            </span>
-            <span className="text-label text-success">+12% this week</span>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <button type="button" className="btn-primary">
-              Primary action
-            </button>
-            <button type="button" className="btn-secondary">
-              Secondary
-            </button>
-            <span className="tag bg-primary-soft text-primary">Active</span>
-          </div>
-        </div>
-      </motion.div>
-    </motion.main>
+  return (
+    <div className="flex min-h-screen">
+      <Sidebar
+        view={view}
+        onViewChange={setView}
+        profile={profile}
+        onProfileChange={setProfile}
+      />
+      <main className="flex-1 overflow-y-auto px-8 py-10 lg:px-12">
+        {/* key remounts the view on profile switch so role scoping + entrances reapply */}
+        {view === 'agents' && <AgentsView key={profile.id} profile={profile} />}
+        {view === 'conflicts' && <ConflictsView key={profile.id} />}
+        {view === 'antigravity' && <AntigravityView key={profile.id} profile={profile} />}
+        {view === 'vault' && <VaultView key={profile.id} profile={profile} />}
+      </main>
+    </div>
   )
 }
 

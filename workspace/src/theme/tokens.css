@@ -5,17 +5,19 @@
  * Pure CSS on purpose: this file must not depend on Tailwind processing.
  */
 :root {
-  /* ---- Color ---- */
-  --color-background: #f7f5f1;      /* warm off-white / cream app background */
+  /* ---- Color ----
+     Values aligned with Preethesh's landing palette (landing/assets/theme.js)
+     so landing and workspace read as one product. */
+  --color-background: #fff8f6;      /* warm white app background (landing `surface`) */
   --color-surface: #ffffff;         /* cards, panels, elevated content */
   --color-dark-surface: #111111;    /* dark UI sections, mockup frames, footer */
-  --color-primary: #f0632a;         /* burnt orange — buttons, links, active states */
-  --color-primary-hover: #d9551f;   /* darkened primary for hover/pressed */
-  --color-primary-soft: rgba(240, 99, 42, 0.1); /* icon chips, active-nav tint */
-  --color-text-primary: #1a1a1a;    /* main text on light backgrounds */
-  --color-text-secondary: #8a8580;  /* muted text, labels, captions */
+  --color-primary: #a53600;         /* deep burnt orange (landing `primary`) */
+  --color-primary-hover: #812800;   /* pressed/hover primary */
+  --color-primary-soft: rgba(165, 54, 0, 0.08); /* icon chips, active-nav tint */
+  --color-text-primary: #261814;    /* warm near-black (landing `on-surface`) */
+  --color-text-secondary: #625e59;  /* muted text, labels (landing `secondary`) */
   --color-text-inverse: #ffffff;    /* text on dark backgrounds */
-  --color-border: #e8e4de;          /* dividers, card borders */
+  --color-border: #f2e0d8;          /* warm dividers (landing outline-variant @ ~35%) */
   --color-success: #2fa36b;         /* positive metrics, stat increases */
 
   /* ---- Radius ---- */

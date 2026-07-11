@@ -39,11 +39,11 @@ This file is the shared source of truth for what Preethesh and Deepthi are each 
 | Preethesh | Workflow/roadmap visualization (Step 0–9) | Done (v1) | `landing/workflow.html`; statuses hardcoded, needs Manager Agent API | 2026-07-11 |
 | Preethesh | Language selector + i18n plumbing | Done (v1) | `landing/assets/i18n.js` — EN/HI/TA, data-i18n contract | 2026-07-11 |
 | Deepthi | Global UI theme / design system (tokens, type scale, motion presets) | Done | `workspace/` app scaffolded (Vite + React + TS + Tailwind + framer-motion); all pages must inherit from `workspace/src/theme/` | 2026-07-11 |
-| Deepthi | Workspace shell + navigation + profile switching | Not started | | |
-| Deepthi | Agent activity dashboard | Not started | | |
-| Deepthi | Conflict Resolution feed UI | Not started | | |
-| Deepthi | Antigravity edit-history + rollback UI | Not started | | |
-| Deepthi | Shared vs. private vault indicator | Not started | | |
+| Deepthi | Workspace shell + navigation + profile switching | Done (v1) | Sidebar nav, 3 mock profiles, role-scoped access (`workspace/src/components/Sidebar.tsx`) | 2026-07-11 |
+| Deepthi | Agent activity dashboard | Done (v1) | 6 agent cards + conversation drawer, mock data (`views/AgentsView.tsx`) | 2026-07-11 |
+| Deepthi | Conflict Resolution feed UI | Done (v1) | Arbitration feed w/ rulings (`views/ConflictsView.tsx`); needs Bhavi/Ashish event format | 2026-07-11 |
+| Deepthi | Antigravity edit-history + rollback UI | Done (v1) | Version list, approve/deny/rollback local-state flow (`views/AntigravityView.tsx`); needs Ashish API | 2026-07-11 |
+| Deepthi | Shared vs. private vault indicator | Done (v1) | Synced vs device-only panels, role-gated (`views/VaultView.tsx`); needs Gemma vault API | 2026-07-11 |
 
 *(Update Status to "In progress" / "Done" as work happens; add a one-line Note + Date.)*
 
