@@ -508,32 +508,10 @@ async function runSimulatorLoop(workspaceId: string) {
 
     saveContext(workspaceId, ctx);
 
-    // Generate simulated conflict at Engineering phase
-    if (stepId === 'task-engineering') {
-      db.prepare(`
-        INSERT INTO conflicts (id, workspace_id, party_a, party_b, topic, arguments_a, arguments_b)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
-      `).run(
-        'conflict-1',
-        workspaceId,
-        'legal-dept',
-        'marketing-dept',
-        'Landing Page GDPR compliance validation check',
-        'Legal requires full cookies approval banner and local server storage audits before launch.',
-        'Marketing insists a clean GTM signup without cookies opt-in maximizes initial campaign CTR by 40%.'
-      );
-
-      logMsg.run(
-        'msg-conflict-trigger',
-        'conflict-resolver',
-        'founder',
-        'CONFLICT_DETECTED',
-        JSON.stringify({
-          conflictId: 'conflict-1',
-          topic: 'Landing Page GDPR compliance validation check'
-        })
-      );
-    }
+    // NOTE: the old demo used to seed a fake GDPR conflict here, which
+    // blocked every real agent after each workspace launch. Removed —
+    // conflicts should only come from actual agent disagreements now
+    // (the Conflict Center and /api/conflicts/resolve still work).
 
     // Complete Task
     const end = new Date().toISOString();

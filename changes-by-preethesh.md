@@ -76,3 +76,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 - `packages/client/src/App.tsx` — Code section primary button renamed "Build our MVP now" → "StartupForge" (side-panel copy updated).
 **Verified with Playwright:** :3001/landing/ serves the full landing; Get Started lands on "How are you building this?"; solo onboarding → ideation → launch triggers the backend and redirects to the :3000 dashboard; StartupForge button renders, old label gone, no JS errors.
 **Why:** One continuous product funnel — landing (:3001/landing/) → onboarding (:3001) → agent dashboard (:3000) — instead of three disconnected UIs.
+
+## [2026-07-11] — Removed the fake GDPR conflict that blocked all agents
+**Prompt/ask:** Research query got blocked by the "Landing Page GDPR compliance validation check" dispute again. Fix it.
+**Changes made:** `packages/server/src/index.ts` — the workspace-launch simulation seeded a hardcoded legal-vs-marketing GDPR conflict on every launch, re-blocking every agent each time someone completed onboarding. Removed the seeding (the Conflict Center and resolve API remain fully functional for real agent disputes); resolved the active instance. Verified: research chat answers normally, and a fresh execution trigger produces 0 active conflicts.
+**Why:** Conflicts should come from actual agent disagreements, not a demo fixture that deadlocks the product after every onboarding.
