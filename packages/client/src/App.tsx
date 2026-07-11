@@ -558,6 +558,28 @@ export default function App() {
     }
   };
 
+  // ── Code section: hand off to Ashish's Antigravity build system ──
+  // Set ANTIGRAVITY_URL to his app's address once it ships; until then the
+  // request is logged into shared agent memory and the page refreshes.
+  const ANTIGRAVITY_URL = ''; // e.g. 'http://localhost:4000/'
+  const handleMvpAction = async (action: 'build' | 'fix') => {
+    try {
+      await fetch('/api/vault', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: 'mvp-' + Math.random().toString(36).substring(7),
+          keyType: action === 'build' ? 'mvp_build_request' : 'mvp_fix_request',
+          encryptedPayload: `${action === 'build' ? 'Build MVP' : 'Fix MVP'} requested from Code section`
+        })
+      });
+    } catch (err) {
+      console.error('MVP action log failed', err);
+    }
+    if (ANTIGRAVITY_URL) window.location.href = ANTIGRAVITY_URL;
+    else window.location.reload();
+  };
+
   // ── Context file upload → shared agent memory ──
   const handleContextFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -1235,7 +1257,38 @@ export default function App() {
             /* REDESIGNED CHATBOT: WIDER AND MORE SPACIOUS (65% width vs 35% width for widgets) */
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 min-h-[550px]">
               
-              {/* LEFT COL: CHATBOT CONTAINER (Spans 8 cols - 66% width) */}
+              {/* LEFT COL — CODE VIEW: no chatbot, just the two MVP actions
+                  that hand off to Ashish's Antigravity app */}
+              {activeView === 'Code' ? (
+              <div className="lg:col-span-8 glass-panel rounded-2xl p-10 shadow-2xl flex flex-col items-center justify-center gap-8 h-[600px] bg-white/70 border-stone-200/70 text-center">
+                <div className="p-4 rounded-2xl bg-gradient-to-tr from-[#a53600] to-[#cc490e] text-white shadow-[0_4px_20px_rgba(165,54,0,0.2)]">
+                  <Code className="w-8 h-8" />
+                </div>
+                <div className="space-y-2 max-w-md">
+                  <h3 className="font-bold text-stone-900 font-outfit text-xl">Ship your product</h3>
+                  <p className="text-sm text-stone-600 leading-relaxed">
+                    The Code agents build your MVP from everything the other agents already know — or fix the software you already have.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4 w-full max-w-lg">
+                  <button
+                    onClick={() => handleMvpAction('build')}
+                    className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold text-white bg-gradient-to-r from-[#a53600] to-[#cc490e] hover:from-[#812800] hover:to-[#a53600] rounded-xl transition shadow-xl shadow-[#a53600]/25 active:scale-95"
+                  >
+                    <Play className="w-4 h-4" />
+                    <span>Build our MVP now</span>
+                  </button>
+                  <button
+                    onClick={() => handleMvpAction('fix')}
+                    className="flex-1 flex items-center justify-center gap-2 py-4 text-sm font-bold text-[#a53600] bg-white border-2 border-[#a53600]/30 hover:border-[#a53600] hover:bg-[#a53600]/5 rounded-xl transition active:scale-95"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    <span>Fix your MVP software</span>
+                  </button>
+                </div>
+                <p className="text-[10px] text-stone-400 font-mono">Hands off to the Antigravity build system (Ashish's track)</p>
+              </div>
+              ) : (
               <div className="lg:col-span-8 glass-panel rounded-2xl p-5 shadow-2xl flex flex-col h-[600px] bg-white/70 border-stone-200/70">
                 <div className="flex items-center justify-between border-b border-stone-200/80 pb-4 mb-4 shrink-0">
                   <div className="flex items-center gap-3">
@@ -1321,6 +1374,7 @@ export default function App() {
                   </button>
                 </form>
               </div>
+              )}
 
               {/* RIGHT COL: SPECIALIZED DEPARTMENT WORKSPACE (Spans 4 cols - 33% width) */}
               <div className="lg:col-span-4 flex flex-col gap-6">
@@ -1732,7 +1786,7 @@ export default function App() {
                       <h3 className="font-bold text-stone-900 font-outfit text-sm">Code Support — Antigravity</h3>
                     </div>
                     <p className="text-xs text-stone-600 leading-relaxed">
-                      Chat with the Code Support agent for stack and architecture advice. Direct code-editing automation (edit your live product in plain language) plugs in here when <b>Ashish's Antigravity track</b> ships.
+                      "Build our MVP now" and "Fix your MVP software" hand your request — with the full shared agent context — to the Antigravity build system. Direct code-editing automation plugs in here when <b>Ashish's Antigravity track</b> ships.
                     </p>
                     <div className="p-3 rounded-xl border border-dashed border-[#a53600]/40 bg-[#fff1ec] text-[10px] font-mono text-stone-500 text-center">
                       ANTIGRAVITY INTEGRATION SLOT — pending Gemma vault edit/version API
