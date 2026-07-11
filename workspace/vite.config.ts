@@ -22,6 +22,13 @@ function serveLanding(): Plugin {
     name: 'serve-landing',
     configureServer(server) {
       server.middlewares.use('/landing', (req, res, next) => {
+        // /landing (no trailing slash) breaks the pages' relative assets/
+        // paths — they resolve against the site root and 404, leaving the
+        // page unstyled. Redirect to /landing/.
+        if ((req as { originalUrl?: string }).originalUrl === '/landing') {
+          res.writeHead(301, { Location: '/landing/' })
+          return res.end()
+        }
         const urlPath = (req.url ?? '/').split('?')[0]
         let file = normalize(join(landingDir, urlPath === '/' ? 'index.html' : urlPath))
         if (!file.startsWith(landingDir)) return next()

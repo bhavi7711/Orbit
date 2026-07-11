@@ -81,3 +81,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 **Prompt/ask:** Research query got blocked by the "Landing Page GDPR compliance validation check" dispute again. Fix it.
 **Changes made:** `packages/server/src/index.ts` — the workspace-launch simulation seeded a hardcoded legal-vs-marketing GDPR conflict on every launch, re-blocking every agent each time someone completed onboarding. Removed the seeding (the Conflict Center and resolve API remain fully functional for real agent disputes); resolved the active instance. Verified: research chat answers normally, and a fresh execution trigger produces 0 active conflicts.
 **Why:** Conflicts should come from actual agent disagreements, not a demo fixture that deadlocks the product after every onboarding.
+
+## [2026-07-11] — Fix unstyled landing at :3001/landing (missing trailing slash)
+**Prompt/ask:** Landing page UI broken at 3001/landing; fix only that.
+**Changes made:** `workspace/vite.config.ts` — visiting `/landing` without the trailing slash made the pages' relative `assets/theme.js` + `assets/i18n.js` resolve against the site root and 404, so the page rendered unstyled with no i18n. The serve-landing middleware now 301-redirects `/landing` → `/landing/`. Verified: curl shows the 301, browser lands on `/landing/` with zero 404s and full styling.
+**Why:** Both URL forms must work — people don't type trailing slashes.
