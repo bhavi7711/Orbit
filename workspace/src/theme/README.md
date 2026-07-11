@@ -15,16 +15,16 @@ Global theme every page/component must inherit from. **Never introduce ad-hoc he
 
 | Token | Hex | Use |
 |---|---|---|
-| `background` | `#F7F5F1` | App background (warm cream) |
+| `background` | `#FFF8F6` | App background (warm white, matches landing) |
 | `surface` | `#FFFFFF` | Cards, panels |
 | `dark-surface` | `#111111` | Dark sections, mockup frames, footer |
-| `primary` | `#F0632A` | Buttons, links, highlights, active states |
-| `primary-hover` | `#D9551F` | Hover/pressed primary |
-| `primary-soft` | 10% orange | Icon chips, active-nav tint, badges |
-| `text-primary` | `#1A1A1A` | Main text on light bg |
-| `text-secondary` | `#8A8580` | Muted text, labels, captions |
+| `primary` | `#A53600` | Buttons, links, highlights, active states |
+| `primary-hover` | `#812800` | Hover/pressed primary |
+| `primary-soft` | 8% orange | Icon chips, active-nav tint, badges |
+| `text-primary` | `#261814` | Main text on light bg |
+| `text-secondary` | `#625E59` | Muted text, labels, captions |
 | `text-inverse` | `#FFFFFF` | Text on dark bg |
-| `border` | `#E8E4DE` | Dividers, card borders |
+| `border` | `#F2E0D8` | Dividers, card borders |
 | `success` | `#2FA36B` | Positive metrics/stat increases |
 
 ## Type scale (font: Inter 400/500/600/700, loaded in `index.html`)
@@ -49,5 +49,5 @@ Use Tailwind classes: `text-display` (56/bold/1.1), `text-page-title` (32/bold),
 ## Accessibility non-negotiables
 
 - Focus rings are global (`:focus-visible` orange outline) — don't remove.
-- `text-secondary` (#8A8580) is for captions/labels only, never long body text.
+- `text-secondary` (#625E59) is for captions/labels only, never long body text.
 - All clickable elements get `cursor-pointer` (built into `.btn-*`); icon-only buttons need `aria-label`.

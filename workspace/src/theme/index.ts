@@ -15,15 +15,15 @@
 export * from './motion'
 
 export const colors = {
-  background: '#F7F5F1',
+  background: '#FFF8F6',
   surface: '#FFFFFF',
   darkSurface: '#111111',
-  primary: '#F0632A',
-  primaryHover: '#D9551F',
-  textPrimary: '#1A1A1A',
-  textSecondary: '#8A8580',
+  primary: '#A53600',
+  primaryHover: '#812800',
+  textPrimary: '#261814',
+  textSecondary: '#625E59',
   textInverse: '#FFFFFF',
-  border: '#E8E4DE',
+  border: '#F2E0D8',
   success: '#2FA36B',
 } as const
 
