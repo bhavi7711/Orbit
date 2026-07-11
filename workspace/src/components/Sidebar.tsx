@@ -93,6 +93,12 @@ export function Sidebar({ view, onViewChange, profile, onProfileChange }: Sideba
             ? 'Full access · can approve edits'
             : 'Role-scoped: no financials, view-only edits'}
         </p>
+        <a
+          href="/landing/"
+          className="mt-2 block rounded-button px-3 py-2 text-label font-medium text-text-secondary transition-colors duration-200 hover:bg-background hover:text-primary"
+        >
+          Landing site →
+        </a>
       </div>
     </aside>
   )
