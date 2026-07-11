@@ -27,4 +27,7 @@ Bhavi owns the multi-agent research/orchestration track:
 
 ---
 
-*(No entries yet — log here as work happens.)*
+## [2026-07-11] — Orbit OS monorepo merged to main (branch `bhavii`, merged by Preethesh)
+**Prompt/ask:** Bhavi pushed branch `bhavii`; Preethesh reviewed and merged it.
+**Changes made:** New npm-workspaces monorepo under `packages/`: `client` (Vite + React app, warm beige theme, progressive unlocks UI), `server` (Express-style API with Gemini chat integration — `GEMINI_API_KEY` read from a local `.env`, not committed — plus Excel downloads and a budget refiner), `core` (shared types + schemas), and `orbit_secure_db.json` (local demo DB with the agent-communication log). Branch had no shared history with main, so it was merged with `--allow-unrelated-histories`; no file conflicts.
+**Why:** First working implementation of the agent orchestration/server track. Note for cleanup: compiled artifacts (`*.js.map`, `*.d.ts`, `tsconfig.tsbuildinfo`, `App.js`) are committed alongside sources and should probably be gitignored; the repo now has three separate frontends (`landing/`, `workspace/`, `packages/client/`) that need consolidating.
