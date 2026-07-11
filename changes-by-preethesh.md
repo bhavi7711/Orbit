@@ -52,3 +52,8 @@ Append one entry per prompt/session below, newest at the bottom. Use this templa
 - `packages/client/src/App.tsx` — dashboard trimmed to 7 agents: Research, Finance, Marketing, Creative, Deck, Code (Ashish's Antigravity placeholder), Conflict. New panels: Poster & Ad Studio (prompt → image options → Veo video/storyboard), Caption & Voiceover Studio (with audio player), Investor Deck Builder (PPTX download), Code Support slot. Gemma vault panel gained context-file upload.
 - Removed committed build artifacts (`App.js` etc. — they SHADOWED `App.tsx` in Vite's resolver, serving stale UI) and gitignored them + `*.tsbuildinfo` + `uploads/`.
 **Verified end-to-end with Playwright + curl:** grounded research cites live market data; finance agent quotes the uploaded invoice; 2 real posters rendered; real 4.5MB Veo MP4 ad; Hinglish captions; TTS voiceover playing in an `<audio>` element; 10-slide PPTX downloaded; doc upload summarized into agent memory. Key expires in 24h — replace `packages/server/.env` after that.
+
+## [2026-07-11] — Ashish onboarding: repo link, env template, Code-slot integration guide
+**Prompt/ask:** Get Ashish (multi-agentic code system + Gemma, customer-feedback-driven builds) everything needed to merge his work into the Code section.
+**Changes made:** `ONBOARDING-ASHISH.md` (repo links, 5-min setup, exact integration points — Code panel in App.tsx, `AGENT_SYSTEM_PROMPTS.code`, `registerCreative()` pattern for his endpoints, shared-memory logging, uploads location — plus workflow rules) and `packages/server/.env.example` (key template; real key shared privately, never committed).
+**Why:** Key stays out of git per Preethesh's decision; the doc encodes the artifact-shadowing lesson so it doesn't happen again.
